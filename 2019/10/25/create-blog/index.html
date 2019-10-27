@@ -39,6 +39,8 @@
   <link rel="stylesheet" href="/css/style.css">
   
   
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitment@0.0.3/style/default.min.css">
+  
   
   
 </head>
@@ -56,7 +58,7 @@
         </a>
         <h2 id="name" class="hidden-xs hidden-sm">ZhangXiao</h2>
         <h3 id="title" class="hidden-xs hidden-sm hidden-md">清风湿润，茶烟轻扬。</h3>
-        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Hangzhou, China</small>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Jilin, China</small>
       </div>
       
       <div class="search" id="search-form-wrap">
@@ -480,7 +482,7 @@
     
   <section id="comments">
   	
-      <div id="vcomments"></div>
+
     
   </section>
 
@@ -628,29 +630,24 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
    
     
-  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/valine"></script>
-  <script type="text/javascript">
-  var GUEST = ['nick', 'mail', 'link'];
-  var meta = 'nick,mail,link';
-  meta = meta.split(',').filter(function(item) {
-    return GUEST.indexOf(item) > -1;
-  });
-  new Valine({
-    el: '#vcomments',
-    verify: false,
-    notify: false,
-    appId: '',
-    appKey: '',
-    placeholder: 'Just go go',
-    avatar: 'mm',
-    meta: meta,
-    pageSize: '10' || 10,
-    visitor: false
-  });
-  </script>
+<script src="//cdn.jsdelivr.net/npm/gitment@0.0.3/dist/gitment.browser.min.js"></script>
+<script>
+var gitment = new Gitment({
+  // id默认为当前页面url，如果url后带参数或锚点，gitment要重新初始化
+  // https://github.com/imsun/gitment/issues/55
+  // 解决方案：id:window.location.pathname,或者将id设置为当前页面标题
+  id: 'Hexo+Github 创建个人博客', 
+  owner: 'zhangxiaocn', // 可以是你的GitHub用户名，也可以是github id
+  repo: 'zhangxiaocn.github.io',
+  oauth: {
+    client_id: 'cf8924f9d2c52942aa96',
+    client_secret: 'aee5c805cda393a51eef25f67df00c02cd4001d7',
+  }
+})
+gitment.render('comments')
+</script>
 
-     
+
 
 
 
