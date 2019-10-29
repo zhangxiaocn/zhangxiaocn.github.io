@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>简述 K60 直流电机闭环控制 | ZhangXiao&#39;s Blog</title>
+  <meta name="description" content="仅用于备份本人所写笔记，如有错误或不完善之处还请包含。转载请注明出处！ 程序使用逐飞科技 K60 库 V2.0.3  电机速度闭环控制，简单来说就是将电机的输出量（速度）通过编码器反馈到控制端（单片机），然后对该输出量和设定的输入量进行比对，接着经过 PID 运算，将运算结果输入给电机的过程。 电机速度闭环一个显而易见的好处就是，可以让小车在不同的路段动态调整小车的速度，如果参数调整的好，可以让">
+<meta name="keywords" content="K60">
+<meta property="og:type" content="article">
+<meta property="og:title" content="简述 K60 直流电机闭环控制">
+<meta property="og:url" content="https:&#x2F;&#x2F;zhangxiaocn.github.io&#x2F;2019&#x2F;10&#x2F;29&#x2F;k60-motor-control&#x2F;index.html">
+<meta property="og:site_name" content="ZhangXiao&#39;s Blog">
+<meta property="og:description" content="仅用于备份本人所写笔记，如有错误或不完善之处还请包含。转载请注明出处！ 程序使用逐飞科技 K60 库 V2.0.3  电机速度闭环控制，简单来说就是将电机的输出量（速度）通过编码器反馈到控制端（单片机），然后对该输出量和设定的输入量进行比对，接着经过 PID 运算，将运算结果输入给电机的过程。 电机速度闭环一个显而易见的好处就是，可以让小车在不同的路段动态调整小车的速度，如果参数调整的好，可以让">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-29T13:44:33.298Z">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://zhangxiaocn.github.io/2019/10/29/k60-motor-control/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="ZhangXiao&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/zhangxiaocn" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">ZhangXiao</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">清风湿润，茶烟轻扬。</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Jilin, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/zhangxiaocn" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎来到我的个人博客</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Blog/">Blog</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blog/" rel="tag">Blog</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IAR/" rel="tag">IAR</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/K60/" rel="tag">K60</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenMV/" rel="tag">OpenMV</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%9E%E5%BF%86/" rel="tag">回忆</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91%E8%BD%AF%E4%BB%B6/" rel="tag">开发软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BE%8E%E5%8C%96/" rel="tag">美化</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Blog/" style="font-size: 14px;">Blog</a> <a href="/tags/C/" style="font-size: 13px;">C</a> <a href="/tags/Hexo/" style="font-size: 14px;">Hexo</a> <a href="/tags/IAR/" style="font-size: 13px;">IAR</a> <a href="/tags/K60/" style="font-size: 13px;">K60</a> <a href="/tags/OpenMV/" style="font-size: 13px;">OpenMV</a> <a href="/tags/%E5%9B%9E%E5%BF%86/" style="font-size: 13px;">回忆</a> <a href="/tags/%E5%BC%80%E5%8F%91%E8%BD%AF%E4%BB%B6/" style="font-size: 13px;">开发软件</a> <a href="/tags/%E7%BE%8E%E5%8C%96/" style="font-size: 13.5px;">美化</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/10/29/openmv-study-note-1/" class="title">OpenMV 扫描 QR 码 + 串口通信</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-29T13:46:29.000Z" itemprop="datePublished">2019-10-29</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/10/29/k60-motor-control/" class="title">简述 K60 直流电机闭环控制</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-29T13:41:02.000Z" itemprop="datePublished">2019-10-29</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/10/29/iar-setting/" class="title">IAR 软件自用技巧</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-29T13:35:35.000Z" itemprop="datePublished">2019-10-29</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Blog/">Blog</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/10/29/continue-blog/" class="title">换电脑后快速恢复 hexo 博客</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-29T13:23:54.000Z" itemprop="datePublished">2019-10-29</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Blog/">Blog</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/10/29/hexo-theme-next/" class="title">Hexo NexT 主题的启用及设置</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-29T13:05:08.000Z" itemprop="datePublished">2019-10-29</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-k60-motor-control" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      简述 K60 直流电机闭环控制
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/10/29/k60-motor-control/" class="article-date">
+	  <time datetime="2019-10-29T13:41:02.000Z" itemprop="datePublished">2019-10-29</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/K60/" rel="tag">K60</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/10/29/k60-motor-control/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.3k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 5(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <blockquote>
+<p>仅用于备份本人所写笔记，如有错误或不完善之处还请包含。转载请注明出处！</p>
+<p>程序使用逐飞科技 K60 库 V2.0.3</p>
+</blockquote>
+<p>电机速度闭环控制，简单来说就是将电机的输出量（速度）通过编码器反馈到控制端（单片机），然后对该输出量和设定的输入量进行比对，接着经过 PID 运算，将运算结果输入给电机的过程。</p>
+<p>电机速度闭环一个显而易见的好处就是，可以让小车在不同的路段动态调整小车的速度，如果参数调整的好，可以让小车极大的提升对赛道的适应性能，减少小车跑完一圈所需的时间。</p>
+<p>闭环控制思路比较简单，首先需要获取编码器的值，每 4ms 取一次值（可以设定其他时间），然后将取到的值进行相应的计算，得出电机当前速度。</p>
+<p>代码示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">float</span> unit_pulse = <span class="number">1783.0</span>;  <span class="comment">// 小车轮胎旋转一周（360°）的脉冲</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">float</span> motor_radius = <span class="number">0.063</span>;  <span class="comment">// 电机轮胎半径（米）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 编码器初始化</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EncoderInit</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    ftm_quad_init(ftm2);  <span class="comment">// 初始化 ftm2 为正交解码</span></span><br><span class="line"></span><br><span class="line">    port_init_NoAlt(B18, PULLUP);  <span class="comment">// 上拉</span></span><br><span class="line">    port_init_NoAlt(B19, PULLUP);  <span class="comment">// 上拉</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 读取编码器值</span></span><br><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">EncoderRead</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">float</span> data = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    data = ftm_quad_get(ftm2);  <span class="comment">// 获取编码器的脉冲值</span></span><br><span class="line">    ftm_quad_clean(ftm2);       <span class="comment">// 清除正交解码的脉冲值</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> data;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 计算电机当前速度</span></span><br><span class="line"><span class="comment">// 输入值为运行该程序的间隔时间</span></span><br><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">GetMotorSpeed</span><span class="params">(uint16 run_time_ms)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">float</span> motor_speed = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    encoder.finalValue +=</span><br><span class="line">        <span class="number">0.25f</span> * (encoder.value - encoder.finalValue);  <span class="comment">// 一阶低通滤波</span></span><br><span class="line">    encoder.motorRounds =</span><br><span class="line">        (encoder.finalValue * run_time_ms) / unit_pulse;  <span class="comment">// 电机每 1s 转的圈数</span></span><br><span class="line">    encoder.motorDistance =</span><br><span class="line">        encoder.motorRounds * (<span class="number">2</span> * PI * motor_radius);  <span class="comment">// 电机运行长度 m</span></span><br><span class="line">    motor_speed = encoder.motorDistance / <span class="number">1</span>;            <span class="comment">// 电机速度 m/s</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> motor_speed;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>计算出速度后，把该变量赋值给 PID 计算，算出需要输出给电机的占空比。PID 计算公式可以根据实际情况稍作修改优化。</p>
+<p>代码示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 电机 pid 程序</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MotorPid</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">float</span> err, last_err, expect_pwm;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 请根据实际情况修改 KP、KI 参数大小</span></span><br><span class="line">    motor_pid.kp = <span class="number">0.1</span>;</span><br><span class="line">    motor_pid.ki = <span class="number">0.2</span>;</span><br><span class="line"></span><br><span class="line">    err = motor.expectSpeed - encoder.motorSpeed;</span><br><span class="line">    expect_pwm += motor_pid.kp * (err - last_err) + motor_pid.ki * err;</span><br><span class="line">    last_err = err;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 电机占空比限幅</span></span><br><span class="line">    <span class="comment">// 请根据实际情况修改最大和最小 PWM 参数值</span></span><br><span class="line">    <span class="keyword">if</span> (expect_pwm &gt; <span class="number">260</span>) expect_pwm = <span class="number">260</span>;</span><br><span class="line">    <span class="keyword">if</span> (expect_pwm &lt;= <span class="number">0</span>) expect_pwm = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将值转换为正整数类型</span></span><br><span class="line">    motor.expectDutyRatio = (uint16)(expect_pwm);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>PID 返回期望占空比赋值给电机控制函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 电机控制程序</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MotorControl</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    MotorPid();</span><br><span class="line">    MotorPWM(<span class="number">0</span>, motor.expectDutyRatio);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就实现了简单的电机速度闭环控制。当然这只算是比较基础的闭环，若要实现复杂功能，还需进行大量优化。</p>
+<p>如下为本文闭环全部代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*******************************************************************************************</span></span><br><span class="line"><span class="comment"> * COPYRIGHT NOTICE</span></span><br><span class="line"><span class="comment"> * Copyright (c) 2019, ZhangXiao</span></span><br><span class="line"><span class="comment"> * All rights reserved.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 本文件仅供参考交流，未经允许不得用于商业用途！</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * File           : motor.c</span></span><br><span class="line"><span class="comment"> * Author         : ZhangXiao</span></span><br><span class="line"><span class="comment"> * Blog           : zhangxiaocn.github.io</span></span><br><span class="line"><span class="comment"> * Version        : v1.0.1</span></span><br><span class="line"><span class="comment"> * Date           : 2019-08-06</span></span><br><span class="line"><span class="comment"> * Software       : IAR 7.70.1</span></span><br><span class="line"><span class="comment"> * Description    : 电机相关程序以及 PID、编码器程序等</span></span><br><span class="line"><span class="comment"> * note           : None</span></span><br><span class="line"><span class="comment">********************************************************************************************/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"motor.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"headfile.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">float</span> unit_pulse = <span class="number">1783.0</span>;   <span class="comment">// 小车轮胎旋转一周（360°）的脉冲</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">float</span> motor_radius = <span class="number">0.063</span>;  <span class="comment">// 电机轮胎半径（米）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 电机 pid 程序结构体参数</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">MOTOR_PID</span> <span class="title">motor_pid</span> = &#123;</span><span class="number">0.1</span>, <span class="number">0.2</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编码器结构体</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ENCODER</span> <span class="title">encoder</span> = &#123;</span><span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 电机结构体</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">MOTOR</span> <span class="title">motor</span> = &#123;</span><span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 电机初始化</span></span><br><span class="line"><span class="comment">// FTM1_CH0_PIN 端口为 A12</span></span><br><span class="line"><span class="comment">// FTM1_CH1_PIN 端口为 A13</span></span><br><span class="line"><span class="comment">// 电机初始化频率默认为 10k，请根据实际情况更改频率大小</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MotorInit</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    ftm_pwm_init(ftm1, ftm_ch0, <span class="number">10</span> * <span class="number">1000</span>, <span class="number">0</span>);</span><br><span class="line">    ftm_pwm_init(ftm1, ftm_ch1, <span class="number">10</span> * <span class="number">1000</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 电机 PWM 控制</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MotorPWM</span><span class="params">(uint16 pwm_1, uint16 pwm_2)</span> </span>&#123;</span><br><span class="line">    ftm_pwm_duty(ftm1, ftm_ch0, pwm_1);  <span class="comment">// A12 端口</span></span><br><span class="line">    ftm_pwm_duty(ftm1, ftm_ch1, pwm_2);  <span class="comment">// A13 端口</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编码器初始化</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EncoderInit</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    ftm_quad_init(ftm2);  <span class="comment">// 初始化 ftm2 为正交解码</span></span><br><span class="line"></span><br><span class="line">    port_init_NoAlt(B18, PULLUP);  <span class="comment">// 上拉</span></span><br><span class="line">    port_init_NoAlt(B19, PULLUP);  <span class="comment">// 上拉</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 读取编码器值</span></span><br><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">EncoderRead</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">float</span> data = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    data = ftm_quad_get(ftm2);  <span class="comment">// 获取编码器的脉冲值</span></span><br><span class="line">    ftm_quad_clean(ftm2);       <span class="comment">// 清除正交解码的脉冲值</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> data;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 计算电机当前速度</span></span><br><span class="line"><span class="comment">// 输入值为运行该程序的间隔时间</span></span><br><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">GetMotorSpeed</span><span class="params">(uint16 run_time_ms)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">float</span> motor_speed = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    encoder.finalValue +=</span><br><span class="line">        <span class="number">0.25f</span> * (encoder.value - encoder.finalValue);  <span class="comment">// 一阶低通滤波</span></span><br><span class="line">    encoder.motorRounds =</span><br><span class="line">        (encoder.finalValue * run_time_ms) / unit_pulse;  <span class="comment">// 电机每 1s 转的圈数</span></span><br><span class="line">    encoder.motorDistance =</span><br><span class="line">        encoder.motorRounds * (<span class="number">2</span> * PI * motor_radius);  <span class="comment">// 电机运行长度 m</span></span><br><span class="line">    motor_speed = encoder.motorDistance / <span class="number">1</span>;            <span class="comment">// 电机速度 m/s</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> motor_speed;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 计算电机运行距离</span></span><br><span class="line"><span class="comment">// 输入值为运行该程序的间隔时间</span></span><br><span class="line"><span class="function"><span class="keyword">float</span> <span class="title">GetMotorDistance</span><span class="params">(uint16 run_time_ms)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> encoder.motorDistance / run_time_ms;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编码器相关参数计算</span></span><br><span class="line"><span class="comment">// 输入值为运行该程序的间隔时间</span></span><br><span class="line"><span class="comment">// 程序建议每 4ms 运行一次，即 Encoder_Calculate(4);</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EncoderCalculate</span><span class="params">(uint16 run_time_ms)</span> </span>&#123;</span><br><span class="line">    uint16 run_time = <span class="number">1000</span> / run_time_ms;  <span class="comment">// 每秒钟运行此程序次数</span></span><br><span class="line"></span><br><span class="line">    encoder.value = EncoderRead();                 <span class="comment">// 读取编码器的值</span></span><br><span class="line">    encoder.motorSpeed = GetMotorSpeed(run_time);  <span class="comment">// 计算电机当前速度</span></span><br><span class="line">    motor.distance += GetMotorDistance(run_time);  <span class="comment">// 获取电机距离</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 电机 pid 程序</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MotorPid</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">float</span> err, last_err, expect_pwm;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 请根据实际情况修改 KP、KI 参数大小</span></span><br><span class="line">    motor_pid.kp = <span class="number">0.1</span>;</span><br><span class="line">    motor_pid.ki = <span class="number">0.2</span>;</span><br><span class="line"></span><br><span class="line">    err = motor.expectSpeed - encoder.motorSpeed;</span><br><span class="line">    expect_pwm += motor_pid.kp * (err - last_err) + motor_pid.ki * err;</span><br><span class="line">    last_err = err;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 电机占空比限幅</span></span><br><span class="line">    <span class="comment">// 请根据实际情况修改最大和最小 PWM 参数值</span></span><br><span class="line">    <span class="keyword">if</span> (expect_pwm &gt; <span class="number">260</span>) expect_pwm = <span class="number">260</span>;</span><br><span class="line">    <span class="keyword">if</span> (expect_pwm &lt;= <span class="number">0</span>) expect_pwm = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将值转换为正整数类型</span></span><br><span class="line">    motor.expectDutyRatio = (uint16)(expect_pwm);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 电机控制程序</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MotorControl</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    MotorPid();</span><br><span class="line">    MotorPWM(<span class="number">0</span>, motor.expectDutyRatio);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://zhangxiaocn.github.io/2019/10/29/k60-motor-control/" title="简述 K60 直流电机闭环控制" target="_blank" rel="external">https://zhangxiaocn.github.io/2019/10/29/k60-motor-control/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/zhangxiaocn" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/zhangxiaocn" target="_blank"><span class="text-dark">ZhangXiao</span><small class="ml-1x">清风湿润，茶烟轻扬。</small></a></h3>
+        <div>一个爱折腾的大学生，折腾电脑，折腾手机，折腾各种数码设备。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/10/29/openmv-study-note-1/" title="OpenMV 扫描 QR 码 + 串口通信"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/10/29/iar-setting/" title="IAR 软件自用技巧"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/zhangxiaocn" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

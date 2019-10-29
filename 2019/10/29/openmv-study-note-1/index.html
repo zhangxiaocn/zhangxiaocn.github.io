@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>OpenMV 扫描 QR 码 + 串口通信 | ZhangXiao&#39;s Blog</title>
+  <meta name="description" content="部分内容来自 凡哥带你玩转OpenMV 以及 OpenMV中文入门教程。  使用 TTL-USB 模块 备份一下我用的 TTL-USB 模块各接口，红线是 5V ，粉色线是 3V3 ，蓝色线是 TX ，绿色线是 RX ，黑色线是 GND  两个单片机进行串口通信，最少需要三根线相连：  发送端 TX 接收端 RX 地线 GND  例如 A 和 B 两个单片机，A 的 RX 需要接 B 的 TX">
+<meta name="keywords" content="OpenMV">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenMV 扫描 QR 码 + 串口通信">
+<meta property="og:url" content="https:&#x2F;&#x2F;zhangxiaocn.github.io&#x2F;2019&#x2F;10&#x2F;29&#x2F;openmv-study-note-1&#x2F;index.html">
+<meta property="og:site_name" content="ZhangXiao&#39;s Blog">
+<meta property="og:description" content="部分内容来自 凡哥带你玩转OpenMV 以及 OpenMV中文入门教程。  使用 TTL-USB 模块 备份一下我用的 TTL-USB 模块各接口，红线是 5V ，粉色线是 3V3 ，蓝色线是 TX ，绿色线是 RX ，黑色线是 GND  两个单片机进行串口通信，最少需要三根线相连：  发送端 TX 接收端 RX 地线 GND  例如 A 和 B 两个单片机，A 的 RX 需要接 B 的 TX">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-29T13:50:24.117Z">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://zhangxiaocn.github.io/2019/10/29/openmv-study-note-1/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="ZhangXiao&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/zhangxiaocn" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">ZhangXiao</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">清风湿润，茶烟轻扬。</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Jilin, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/zhangxiaocn" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎来到我的个人博客</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Blog/">Blog</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blog/" rel="tag">Blog</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IAR/" rel="tag">IAR</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/K60/" rel="tag">K60</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenMV/" rel="tag">OpenMV</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%9E%E5%BF%86/" rel="tag">回忆</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91%E8%BD%AF%E4%BB%B6/" rel="tag">开发软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BE%8E%E5%8C%96/" rel="tag">美化</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Blog/" style="font-size: 14px;">Blog</a> <a href="/tags/C/" style="font-size: 13px;">C</a> <a href="/tags/Hexo/" style="font-size: 14px;">Hexo</a> <a href="/tags/IAR/" style="font-size: 13px;">IAR</a> <a href="/tags/K60/" style="font-size: 13px;">K60</a> <a href="/tags/OpenMV/" style="font-size: 13px;">OpenMV</a> <a href="/tags/%E5%9B%9E%E5%BF%86/" style="font-size: 13px;">回忆</a> <a href="/tags/%E5%BC%80%E5%8F%91%E8%BD%AF%E4%BB%B6/" style="font-size: 13px;">开发软件</a> <a href="/tags/%E7%BE%8E%E5%8C%96/" style="font-size: 13.5px;">美化</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/10/29/openmv-study-note-1/" class="title">OpenMV 扫描 QR 码 + 串口通信</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-29T13:46:29.000Z" itemprop="datePublished">2019-10-29</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/10/29/k60-motor-control/" class="title">简述 K60 直流电机闭环控制</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-29T13:41:02.000Z" itemprop="datePublished">2019-10-29</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/10/29/iar-setting/" class="title">IAR 软件自用技巧</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-29T13:35:35.000Z" itemprop="datePublished">2019-10-29</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Blog/">Blog</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/10/29/continue-blog/" class="title">换电脑后快速恢复 hexo 博客</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-29T13:23:54.000Z" itemprop="datePublished">2019-10-29</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Blog/">Blog</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/10/29/hexo-theme-next/" class="title">Hexo NexT 主题的启用及设置</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-29T13:05:08.000Z" itemprop="datePublished">2019-10-29</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#使用-TTL-USB-模块"><span class="toc-number">1.</span> <span class="toc-text">使用 TTL-USB 模块</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#OpenMV-串口资源"><span class="toc-number">2.</span> <span class="toc-text">OpenMV 串口资源</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#串口助手"><span class="toc-number">3.</span> <span class="toc-text">串口助手</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#串口通信程序"><span class="toc-number">4.</span> <span class="toc-text">串口通信程序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#UART-对象"><span class="toc-number">4.1.</span> <span class="toc-text">UART 对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#向串口发送数据"><span class="toc-number">4.2.</span> <span class="toc-text">向串口发送数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#向串口接收数据"><span class="toc-number">4.3.</span> <span class="toc-text">向串口接收数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据双向发送与接收"><span class="toc-number">4.4.</span> <span class="toc-text">数据双向发送与接收</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#扫描-QR-码"><span class="toc-number">5.</span> <span class="toc-text">扫描 QR 码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#扫描-QR-码后通过串口发送数据"><span class="toc-number">6.</span> <span class="toc-text">扫描 QR 码后通过串口发送数据</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-openmv-study-note-1" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      OpenMV 扫描 QR 码 + 串口通信
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/10/29/openmv-study-note-1/" class="article-date">
+	  <time datetime="2019-10-29T13:46:29.000Z" itemprop="datePublished">2019-10-29</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/OpenMV/" rel="tag">OpenMV</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/10/29/openmv-study-note-1/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.1k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 4(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <blockquote>
+<p>部分内容来自 <a href="http://book.myopenmv.com/" target="_blank" rel="noopener">凡哥带你玩转OpenMV</a> 以及 <a href="http://book.openmv.cc/quick-starter.html" target="_blank" rel="noopener">OpenMV中文入门教程</a>。</p>
+</blockquote>
+<h1 id="使用-TTL-USB-模块"><a href="#使用-TTL-USB-模块" class="headerlink" title="使用 TTL-USB 模块"></a>使用 TTL-USB 模块</h1><blockquote>
+<p>备份一下我用的 TTL-USB 模块各接口，红线是 <code>5V</code> ，粉色线是 <code>3V3</code> ，蓝色线是 <code>TX</code> ，绿色线是 <code>RX</code> ，黑色线是 <code>GND</code></p>
+</blockquote>
+<p>两个单片机进行串口通信，最少需要三根线相连：</p>
+<ul>
+<li>发送端 TX</li>
+<li>接收端 RX</li>
+<li>地线 GND</li>
+</ul>
+<p>例如 A 和 B 两个单片机，A 的 <code>RX</code> 需要接 B 的 <code>TX</code> ，B 的 <code>RX</code> 需要接 A 的 <code>TX</code> ，二者的地线 <code>GND</code> 相连作为参考电平。</p>
+<blockquote>
+<p><strong>VCC 可接可不接，USB 的串口是 5V 的，如果要接 OpenMV 板子上的话， 需要接在 OpenMV 的 VIN 上， 如果接在 3v3, 也就是 3.3v 的接口处， 会使所有的元器件暴露在 5v 的电压下， 导致电子元器件全部烧毁</strong>。</p>
+</blockquote>
+<h1 id="OpenMV-串口资源"><a href="#OpenMV-串口资源" class="headerlink" title="OpenMV 串口资源"></a>OpenMV 串口资源</h1><p>OpenMV 引脚图 <strong>UART 3</strong> ：</p>
+<table>
+<thead>
+<tr>
+<th align="center">Pin Name</th>
+<th align="center">Uart Index</th>
+<th align="center">Role</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">P4</td>
+<td align="center">串口 3</td>
+<td align="center">TX 发送端</td>
+</tr>
+<tr>
+<td align="center">P5</td>
+<td align="center">串口 3</td>
+<td align="center">RX 接收端</td>
+</tr>
+</tbody></table>
+<h1 id="串口助手"><a href="#串口助手" class="headerlink" title="串口助手"></a>串口助手</h1><p>推荐下载星瞳串口助手：<a href="https://singtown.com/singtownserialport/" target="_blank" rel="noopener">https://singtown.com/singtownserialport/</a></p>
+<p>或者友善串口调试助手，百度搜索下载即可。</p>
+<p>软件设置：</p>
+<ul>
+<li>波特率：115200</li>
+<li>数据为：8</li>
+<li>校验位：None</li>
+<li>停止位：1</li>
+<li>流控：None</li>
+<li>接收设置：ASCII</li>
+<li>发送设置：Hex</li>
+</ul>
+<h1 id="串口通信程序"><a href="#串口通信程序" class="headerlink" title="串口通信程序"></a>串口通信程序</h1><h2 id="UART-对象"><a href="#UART-对象" class="headerlink" title="UART 对象"></a>UART 对象</h2><blockquote>
+<p>更多详细操作请转到 UART 官方文档：</p>
+<p><a href="http://docs.micropython.org/en/latest/pyboard/library/pyb.UART.html?highlight=uart" target="_blank" rel="noopener">http://docs.micropython.org/en/latest/pyboard/library/pyb.UART.html?highlight=uart</a></p>
+</blockquote>
+<p>初始化UART对象：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 初始化一个串口对象</span></span><br><span class="line"><span class="comment">* uart_idx  , 串口 ID， 我们这里只能写 1 或者 3</span></span><br><span class="line"><span class="comment">* baud_rate , 波特率 </span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">UART(uart_idx, baud_rate)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 初始化 UART 对象</span></span><br><span class="line">uart = UART(<span class="number">3</span>, <span class="number">115200</span>)</span><br></pre></td></tr></table></figure>
+
+<p>更多操作：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 读写操作</span></span><br><span class="line">uart.read(<span class="number">10</span>)        <span class="comment"># 读入 10 个字符， 返回一个比特对象                    </span></span><br><span class="line">uart.read()          <span class="comment"># 读取所有的有效字符</span></span><br><span class="line">uart.readline()      <span class="comment"># 读入一行</span></span><br><span class="line">uart.readinto(buf)   <span class="comment"># 读入并且保存在缓存中</span></span><br><span class="line">uart.write(<span class="string">'abc'</span>)    <span class="comment"># 向串口写入3个字符abc</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 单个字符的读取与写入</span></span><br><span class="line">uart.readchar()      <span class="comment"># 读入一个字符</span></span><br><span class="line">uart.writechar(<span class="number">42</span>)   <span class="comment"># 写入 ASCALL 码为 42 的字符</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 判断串口是否有数据</span></span><br><span class="line">uart.any()</span><br></pre></td></tr></table></figure>
+
+<h2 id="向串口发送数据"><a href="#向串口发送数据" class="headerlink" title="向串口发送数据"></a>向串口发送数据</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> pyb <span class="keyword">import</span> UART</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化 UART 对象</span></span><br><span class="line">uart = UART(<span class="number">3</span>, <span class="number">115200</span>)</span><br><span class="line">uart.init(<span class="number">115200</span>, bits=<span class="number">8</span>, parity=<span class="literal">None</span>, stop=<span class="number">1</span>) <span class="comment"># init with given parameters</span></span><br><span class="line"><span class="keyword">while</span>(<span class="literal">True</span>):</span><br><span class="line">    uart.write(<span class="string">"Hello World!!!\r"</span>)</span><br><span class="line">    print(<span class="string">"Hello World"</span>)</span><br><span class="line">    time.sleep(<span class="number">1000</span>)  <span class="comment"># 休眠 1s</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="向串口接收数据"><a href="#向串口接收数据" class="headerlink" title="向串口接收数据"></a>向串口接收数据</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> pyb <span class="keyword">import</span> UART</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化 UART 对象</span></span><br><span class="line">uart = UART(<span class="number">3</span>, <span class="number">115200</span>)</span><br><span class="line">uart.init(<span class="number">115200</span>, bits=<span class="number">8</span>, parity=<span class="literal">None</span>, stop=<span class="number">1</span>) <span class="comment"># init with given parameters</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(<span class="literal">True</span>):</span><br><span class="line">    <span class="comment"># 判断是否有数据</span></span><br><span class="line">    <span class="keyword">if</span> uart.any():</span><br><span class="line">        tmp_data = uart.readline()</span><br><span class="line">        print(tmp_data)</span><br><span class="line"></span><br><span class="line">    time.sleep(<span class="number">1000</span>)  <span class="comment"># 休眠 1s</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="数据双向发送与接收"><a href="#数据双向发送与接收" class="headerlink" title="数据双向发送与接收"></a>数据双向发送与接收</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> pyb <span class="keyword">import</span> UART</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化 UART 对象</span></span><br><span class="line">uart = UART(<span class="number">3</span>, <span class="number">115200</span>)</span><br><span class="line">uart.init(<span class="number">115200</span>, bits=<span class="number">8</span>, parity=<span class="literal">None</span>, stop=<span class="number">1</span>) <span class="comment"># init with given parameters</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 发送数据</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sending_data</span><span class="params">()</span>:</span></span><br><span class="line">	<span class="keyword">global</span> uart</span><br><span class="line">    uart.write(<span class="string">"HelloWorld!!!\n"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 接收数据</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">recive_data</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">global</span> uart</span><br><span class="line">    <span class="keyword">if</span> uart.any():</span><br><span class="line">        tmp_data = uart.readline()</span><br><span class="line">        uart.write(<span class="string">"Recived : %s\n"</span> % tmp_data)</span><br><span class="line">        print(tmp_data)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(<span class="literal">True</span>):</span><br><span class="line">    sending_data()</span><br><span class="line">    recive_data()</span><br><span class="line">    time.sleep(<span class="number">1000</span>)  <span class="comment"># 休眠 1s</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="扫描-QR-码"><a href="#扫描-QR-码" class="headerlink" title="扫描 QR 码"></a>扫描 QR 码</h1><p>可以用 <a href="http://cli.im/" target="_blank" rel="noopener">草料二维码</a> 生成想要的 QR 码内容</p>
+<p>程序如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sensor, image</span><br><span class="line"></span><br><span class="line">sensor.reset()</span><br><span class="line">sensor.set_pixformat(sensor.RGB565)</span><br><span class="line">sensor.set_framesize(sensor.QQVGA)  <span class="comment"># can be QVGA on M7...</span></span><br><span class="line">sensor.skip_frames(<span class="number">30</span>)              <span class="comment"># 修改 sensor 配置之后，跳过30帧</span></span><br><span class="line">sensor.set_auto_gain(<span class="literal">False</span>)         <span class="comment"># must turn this off to prevent image washout...</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(<span class="literal">True</span>):</span><br><span class="line">    img = sensor.snapshot()         <span class="comment"># 拍摄一张照片，snapshot() 函数返回一个 image 对象</span></span><br><span class="line">    img.lens_corr(<span class="number">1.8</span>)              <span class="comment"># strength of 1.8 is good for the 2.8mm lens.</span></span><br><span class="line">                                    <span class="comment"># 用来防止 115 度的摄像头拍摄出来的图像畸变(鱼眼)</span></span><br><span class="line">    <span class="keyword">for</span> code <span class="keyword">in</span> img.find_qrcodes(): <span class="comment"># find_qrcodes 用于寻找二维码</span></span><br><span class="line">        print(code)</span><br><span class="line">        <span class="comment"># 返回对象格式如下：</span></span><br><span class="line">        <span class="comment"># &#123;x:**, y:**, w:**, h:**, payload:"**", version:*, ecc_level:*, mask:*, data_type:*, eci:*&#125;</span></span><br><span class="line">        <span class="comment"># payload 就是在二维码下隐藏的信息</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="扫描-QR-码后通过串口发送数据"><a href="#扫描-QR-码后通过串口发送数据" class="headerlink" title="扫描 QR 码后通过串口发送数据"></a>扫描 QR 码后通过串口发送数据</h1><p>简单说就是把串口发送数据程序和扫描 QR 码程序放在一块就好了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> pyb <span class="keyword">import</span> UART</span><br><span class="line"><span class="keyword">import</span> sensor, image</span><br><span class="line"></span><br><span class="line">sensor.reset()</span><br><span class="line">sensor.set_pixformat(sensor.RGB565)</span><br><span class="line">sensor.set_framesize(sensor.QQVGA)  <span class="comment"># can be QVGA on M7...</span></span><br><span class="line">sensor.skip_frames(<span class="number">30</span>)              <span class="comment"># 修改 sensor 配置之后，跳过30帧</span></span><br><span class="line">sensor.set_auto_gain(<span class="literal">False</span>)         <span class="comment"># must turn this off to prevent image washout...</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化 UART 对象</span></span><br><span class="line">uart = UART(<span class="number">3</span>, <span class="number">115200</span>)</span><br><span class="line">uart.init(<span class="number">115200</span>, bits = <span class="number">8</span>, parity = <span class="literal">None</span>, stop = <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(<span class="literal">True</span>):</span><br><span class="line">    img = sensor.snapshot()         <span class="comment"># 拍摄一张照片，snapshot() 函数返回一个 image 对象</span></span><br><span class="line">    img.lens_corr(<span class="number">1.8</span>)              <span class="comment"># 用来防止 115 度的摄像头拍摄出来的图像畸变(鱼眼)</span></span><br><span class="line">    <span class="keyword">for</span> code <span class="keyword">in</span> img.find_qrcodes(): <span class="comment"># find_qrcodes 用于寻找二维码</span></span><br><span class="line">        uart.write(code.payload())  <span class="comment"># 串口读取二维码数据</span></span><br><span class="line">        <span class="comment"># if code = "123"</span></span><br><span class="line">        <span class="comment"># 返回对象格式如下：</span></span><br><span class="line">        <span class="comment"># &#123;x, y, w, h, payload:"**", version:*, ecc_level:*, mask:*, data_type:*, eci:*&#125;</span></span><br><span class="line">        <span class="comment"># payload 就是我们在二维码下隐藏的信息</span></span><br><span class="line">        print(code)      <span class="comment"># 输出二维码内容</span></span><br><span class="line">        time.sleep(<span class="number">500</span>)  <span class="comment"># 休息 0.5s</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://zhangxiaocn.github.io/2019/10/29/openmv-study-note-1/" title="OpenMV 扫描 QR 码 + 串口通信" target="_blank" rel="external">https://zhangxiaocn.github.io/2019/10/29/openmv-study-note-1/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/zhangxiaocn" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/zhangxiaocn" target="_blank"><span class="text-dark">ZhangXiao</span><small class="ml-1x">清风湿润，茶烟轻扬。</small></a></h3>
+        <div>一个爱折腾的大学生，折腾电脑，折腾手机，折腾各种数码设备。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2019/10/29/k60-motor-control/" title="简述 K60 直流电机闭环控制"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/zhangxiaocn" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

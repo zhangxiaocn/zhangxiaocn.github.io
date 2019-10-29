@@ -17,15 +17,21 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>ZhangXiao&#39;s Blog</title>
-  <meta property="og:type" content="website">
-<meta property="og:title" content="ZhangXiao&#39;s Blog">
-<meta property="og:url" content="https:&#x2F;&#x2F;zhangxiaocn.github.io&#x2F;index.html">
+  <title>IAR 软件自用技巧 | ZhangXiao&#39;s Blog</title>
+  <meta name="description" content="更改背景效果如下：  点击 Tools -&amp;gt; options 选择 Editor -&amp;gt; Colors and Fonts 点击 Font，选择文字为 Consolas ，Size 选择 三号（按照自己的喜好设置大小） Syntax Coloring 一栏中设置如下：     type Color（颜色） Type Style（类型风格） Background Color（背景颜色）">
+<meta name="keywords" content="IAR,开发软件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IAR 软件自用技巧">
+<meta property="og:url" content="https:&#x2F;&#x2F;zhangxiaocn.github.io&#x2F;2019&#x2F;10&#x2F;29&#x2F;iar-setting&#x2F;index.html">
 <meta property="og:site_name" content="ZhangXiao&#39;s Blog">
+<meta property="og:description" content="更改背景效果如下：  点击 Tools -&amp;gt; options 选择 Editor -&amp;gt; Colors and Fonts 点击 Font，选择文字为 Consolas ，Size 选择 三号（按照自己的喜好设置大小） Syntax Coloring 一栏中设置如下：     type Color（颜色） Type Style（类型风格） Background Color（背景颜色）">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2018&#x2F;11&#x2F;14&#x2F;5bebfef12b87e.png">
+<meta property="og:updated_time" content="2019-10-29T13:44:47.200Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2018&#x2F;11&#x2F;14&#x2F;5bebfef12b87e.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://zhangxiaocn.github.io/index.html">
+  <link rel="canonical" href="https://zhangxiaocn.github.io/2019/10/29/iar-setting/index.html">
   
     <link rel="alternate" href="/atom.xml" title="ZhangXiao&#39;s Blog" type="application/atom+xml">
   
@@ -321,131 +327,61 @@
 </aside>
 
   
-  <main class="main" role="main">
   
-  <div class="content article-list">
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#更改背景"><span class="toc-number">1.</span> <span class="toc-text">更改背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#解决函数无法跳转问题"><span class="toc-number">2.</span> <span class="toc-text">解决函数无法跳转问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#打开软件左侧-Workspace"><span class="toc-number">3.</span> <span class="toc-text">打开软件左侧 Workspace</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#用山外调试助手烧录-K60-程序错误问题"><span class="toc-number">4.</span> <span class="toc-text">用山外调试助手烧录 K60 程序错误问题</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-iar-setting" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
+    <div class="article-header">
+      
+        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/29/openmv-study-note-1/">OpenMV 扫描 QR 码 + 串口通信</a>
+    <h1 class="article-title" itemprop="name">
+      IAR 软件自用技巧
     </h1>
   
 
-  </div>
-  
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/2019/10/29/openmv-study-note-1/" class="article-date">
-	  <time datetime="2019-10-29T13:46:29.000Z" itemprop="datePublished">10月 29</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/OpenMV/" rel="tag">OpenMV</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/10/29/openmv-study-note-1/#comments" class="article-comment-link">评论</a></span>
-    
-	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.1k(字)</span>
-	
-	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 4(分)</span>
-	
-
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/29/k60-motor-control/">简述 K60 直流电机闭环控制</a>
-    </h1>
-  
-
-  </div>
-  
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/2019/10/29/k60-motor-control/" class="article-date">
-	  <time datetime="2019-10-29T13:41:02.000Z" itemprop="datePublished">10月 29</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/K60/" rel="tag">K60</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/10/29/k60-motor-control/#comments" class="article-comment-link">评论</a></span>
-    
-	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.3k(字)</span>
-	
-	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 5(分)</span>
-	
-
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/29/iar-setting/">IAR 软件自用技巧</a>
-    </h1>
-  
-
-  </div>
-  
-  <p class="article-meta">
-    <span class="article-date">
+      
+      <div class="article-meta">
+        <span class="article-date">
     <i class="icon icon-calendar-check"></i>
 	<a href="/2019/10/29/iar-setting/" class="article-date">
-	  <time datetime="2019-10-29T13:35:35.000Z" itemprop="datePublished">10月 29</time>
+	  <time datetime="2019-10-29T13:35:35.000Z" itemprop="datePublished">2019-10-29</time>
 	</a>
 </span>
-    
+        
   <span class="article-category">
     <i class="icon icon-folder"></i>
     <a class="article-category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
   </span>
 
-    
+        
   <span class="article-tag">
     <i class="icon icon-tags"></i>
 	<a class="article-tag-link" href="/tags/IAR/" rel="tag">IAR</a>, <a class="article-tag-link" href="/tags/%E5%BC%80%E5%8F%91%E8%BD%AF%E4%BB%B6/" rel="tag">开发软件</a>
   </span>
 
 
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/10/29/iar-setting/#comments" class="article-comment-link">评论</a></span>
-    
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/10/29/iar-setting/#comments" class="article-comment-link">评论</a></span>
+        
 	
 		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 343(字)</span>
 	
@@ -453,233 +389,255 @@
 		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
 	
 
-  </p>
-</article>
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="更改背景"><a href="#更改背景" class="headerlink" title="更改背景"></a>更改背景</h1><p>效果如下：<br><img src="https://i.loli.net/2018/11/14/5bebfef12b87e.png" alt="IAR主题效果"></p>
+<ol>
+<li>点击 <code>Tools</code> -&gt; <code>options</code></li>
+<li>选择 <code>Editor</code> -&gt; <code>Colors and Fonts</code></li>
+<li>点击 <code>Font</code>，选择文字为 <code>Consolas</code> ，<code>Size</code> 选择 <code>三号</code>（按照自己的喜好设置大小）</li>
+<li><code>Syntax Coloring</code> 一栏中设置如下：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center">type</th>
+<th align="center">Color（颜色）</th>
+<th align="center">Type Style（类型风格）</th>
+<th align="center">Background Color（背景颜色）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Default</td>
+<td align="center">White</td>
+<td align="center">Normal</td>
+<td align="center">Black</td>
+</tr>
+<tr>
+<td align="center">C Keyword</td>
+<td align="center">Lime</td>
+<td align="center">Bold</td>
+<td align="center">Black</td>
+</tr>
+<tr>
+<td align="center">Strings</td>
+<td align="center">Yellow</td>
+<td align="center">Normal</td>
+<td align="center">Black</td>
+</tr>
+<tr>
+<td align="center">Char</td>
+<td align="center">Aqua</td>
+<td align="center">Normal</td>
+<td align="center">Black</td>
+</tr>
+<tr>
+<td align="center">Preprocessor</td>
+<td align="center">Silver</td>
+<td align="center">Normal</td>
+<td align="center">Black</td>
+</tr>
+<tr>
+<td align="center">Number</td>
+<td align="center">Yellow</td>
+<td align="center">Normal</td>
+<td align="center">Black</td>
+</tr>
+<tr>
+<td align="center">C++ Comment</td>
+<td align="center">Aqua</td>
+<td align="center">Italic</td>
+<td align="center">Black</td>
+</tr>
+<tr>
+<td align="center">comment</td>
+<td align="center">Aqua</td>
+<td align="center">Italic</td>
+<td align="center">Black</td>
+</tr>
+<tr>
+<td align="center">User Keyword</td>
+<td align="center">Aqua</td>
+<td align="center">Italic</td>
+<td align="center">Black</td>
+</tr>
+<tr>
+<td align="center">Compiler keyword</td>
+<td align="center">Aqua</td>
+<td align="center">Italic</td>
+<td align="center">Black</td>
+</tr>
+<tr>
+<td align="center">Asm keyword</td>
+<td align="center">Fuchsia</td>
+<td align="center">Bold</td>
+<td align="center">Black</td>
+</tr>
+<tr>
+<td align="center">Asm comment</td>
+<td align="center">Lime</td>
+<td align="center">Italic</td>
+<td align="center">Black</td>
+</tr>
+</tbody></table>
+<h1 id="解决函数无法跳转问题"><a href="#解决函数无法跳转问题" class="headerlink" title="解决函数无法跳转问题"></a>解决函数无法跳转问题</h1><ol>
+<li>点击 <code>Tools</code> -&gt; <code>options</code> </li>
+<li>选择 <code>Project</code></li>
+<li>关闭 <code>Generate browse information</code> ，点击确定</li>
+<li>再次进入设置并重复以上步骤，把刚才关闭的 <code>Generate browse information</code> 选项打开，点击确定</li>
+<li>在软件左侧 <code>Workspace</code> 中，右键第一个文件，点击 <code>Rebuild All</code> ，等待右下角绿色进度条走完</li>
+</ol>
+<h1 id="打开软件左侧-Workspace"><a href="#打开软件左侧-Workspace" class="headerlink" title="打开软件左侧 Workspace"></a>打开软件左侧 Workspace</h1><ol>
+<li>点击 <code>View</code> -&gt; <code>Workspace</code>即可</li>
+</ol>
+<blockquote>
+<p>软件缺少任何视图都可以在 <code>View</code> 栏中找到并打开</p>
+</blockquote>
+<h1 id="用山外调试助手烧录-K60-程序错误问题"><a href="#用山外调试助手烧录-K60-程序错误问题" class="headerlink" title="用山外调试助手烧录 K60 程序错误问题"></a>用山外调试助手烧录 K60 程序错误问题</h1><ol>
+<li>在软件左侧 <code>Workspace</code> 中找到 <code>Files</code> 里的第一个文件并右击鼠标，选择 <code>Options</code></li>
+<li>选择 <code>General Options</code> 中，把 <code>Device</code> 改为 <code>NXP MK60FX512xxx15</code></li>
+<li>选择 <code>Debugger</code> ，在 <code>Setup</code> 中把 <code>Driver</code> 改为 <code>CMSIS DAP</code> ，在 <code>Download</code> 中把框中的文字改为 <code>$TOOLKIT_DIR$\config\flashloader\NXP\FlashK60Fxxx128K.board</code></li>
+<li>选择 <code>CMSIS DAP</code> ，在 <code>interface</code> 栏中把 <code>JTAG</code> 改为 <code>SWD</code></li>
+</ol>
+<p>未完待续……</p>
 
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
     
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://zhangxiaocn.github.io/2019/10/29/iar-setting/" title="IAR 软件自用技巧" target="_blank" rel="external">https://zhangxiaocn.github.io/2019/10/29/iar-setting/</a>
+    </li>
     
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/29/continue-blog/">换电脑后快速恢复 hexo 博客</a>
-    </h1>
-  
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
 
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/zhangxiaocn" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/zhangxiaocn" target="_blank"><span class="text-dark">ZhangXiao</span><small class="ml-1x">清风湿润，茶烟轻扬。</small></a></h3>
+        <div>一个爱折腾的大学生，折腾电脑，折腾手机，折腾各种数码设备。</div>
+      </div>
+    </figure>
   </div>
+</div>
+
+
+    </div>
+  </article>
   
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/2019/10/29/continue-blog/" class="article-date">
-	  <time datetime="2019-10-29T13:23:54.000Z" itemprop="datePublished">10月 29</time>
-	</a>
-</span>
     
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/Blog/">Blog</a>
-  </span>
-
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
     
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Blog/" rel="tag">Blog</a>, <a class="article-tag-link" href="/tags/Hexo/" rel="tag">Hexo</a>
-  </span>
+  </section>
 
 
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/10/29/continue-blog/#comments" class="article-comment-link">评论</a></span>
-    
-	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 476(字)</span>
-	
-	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
-	
-
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/29/hexo-theme-next/">Hexo NexT 主题的启用及设置</a>
-    </h1>
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
   
-
-  </div>
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/10/29/k60-motor-control/" title="简述 K60 直流电机闭环控制"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/10/29/continue-blog/" title="换电脑后快速恢复 hexo 博客"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
   
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/2019/10/29/hexo-theme-next/" class="article-date">
-	  <time datetime="2019-10-29T13:05:08.000Z" itemprop="datePublished">10月 29</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/Blog/">Blog</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Blog/" rel="tag">Blog</a>, <a class="article-tag-link" href="/tags/Hexo/" rel="tag">Hexo</a>, <a class="article-tag-link" href="/tags/%E7%BE%8E%E5%8C%96/" rel="tag">美化</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/10/29/hexo-theme-next/#comments" class="article-comment-link">评论</a></span>
-    
-	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 3.5k(字)</span>
-	
-	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 18(分)</span>
-	
-
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/27/my-c-memory/">我初学 C 的代码保留</a>
-    </h1>
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
   
-
-  </div>
   
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/2019/10/27/my-c-memory/" class="article-date">
-	  <time datetime="2019-10-27T13:23:55.000Z" itemprop="datePublished">10月 27</time>
-	</a>
-</span>
+  <div class="bar-right">
     
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/C/">C</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/C/" rel="tag">C</a>, <a class="article-tag-link" href="/tags/%E5%9B%9E%E5%BF%86/" rel="tag">回忆</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/10/27/my-c-memory/#comments" class="article-comment-link">评论</a></span>
-    
-	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.8k(字)</span>
-	
-	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 9(分)</span>
-	
-
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/25/hexo-theme-yilia/">Hexo yilia 主题的启用及设置</a>
-    </h1>
-  
-
-  </div>
-  
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/2019/10/25/hexo-theme-yilia/" class="article-date">
-	  <time datetime="2019-10-25T13:57:17.000Z" itemprop="datePublished">10月 25</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/Blog/">Blog</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Blog/" rel="tag">Blog</a>, <a class="article-tag-link" href="/tags/Hexo/" rel="tag">Hexo</a>, <a class="article-tag-link" href="/tags/%E7%BE%8E%E5%8C%96/" rel="tag">美化</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/10/25/hexo-theme-yilia/#comments" class="article-comment-link">评论</a></span>
-    
-	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.3k(字)</span>
-	
-	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 5(分)</span>
-	
-
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/25/create-blog/">Hexo+Github 创建个人博客</a>
-    </h1>
-  
-
-  </div>
-  
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/2019/10/25/create-blog/" class="article-date">
-	  <time datetime="2019-10-25T11:54:41.000Z" itemprop="datePublished">10月 25</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/Blog/">Blog</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Blog/" rel="tag">Blog</a>, <a class="article-tag-link" href="/tags/Hexo/" rel="tag">Hexo</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/10/25/create-blog/#comments" class="article-comment-link">评论</a></span>
-    
-	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2.3k(字)</span>
-	
-	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 9(分)</span>
-	
-
-  </p>
-</article>
-
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
     
   </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-   
+
+
 </main>
 
   <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
@@ -734,6 +692,33 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
 
 
 

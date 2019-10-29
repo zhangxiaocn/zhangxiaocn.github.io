@@ -2,16 +2,65 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://zhangxiaocn.github.io/2019/10/27/my-c-memory/</loc>
+    <loc>https://zhangxiaocn.github.io/2019/10/29/openmv-study-note-1/</loc>
     
-    <lastmod>2019-10-27T13:25:47.916Z</lastmod>
+    <lastmod>2019-10-29T13:50:24.117Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zhangxiaocn.github.io/2019/10/29/iar-setting/</loc>
+    
+    <lastmod>2019-10-29T13:44:47.200Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zhangxiaocn.github.io/2019/10/29/k60-motor-control/</loc>
+    
+    <lastmod>2019-10-29T13:44:33.298Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://zhangxiaocn.github.io/about/index.html</loc>
     
-    <lastmod>2019-10-27T11:50:02.762Z</lastmod>
+    <lastmod>2019-10-29T13:40:03.234Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zhangxiaocn.github.io/2019/10/29/continue-blog/</loc>
+    
+    <lastmod>2019-10-29T13:32:03.700Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zhangxiaocn.github.io/2019/10/25/create-blog/</loc>
+    
+    <lastmod>2019-10-29T13:29:40.141Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zhangxiaocn.github.io/2019/10/27/my-c-memory/</loc>
+    
+    <lastmod>2019-10-29T13:26:24.407Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zhangxiaocn.github.io/2019/10/25/hexo-theme-yilia/</loc>
+    
+    <lastmod>2019-10-29T13:26:09.400Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zhangxiaocn.github.io/2019/10/29/hexo-theme-next/</loc>
+    
+    <lastmod>2019-10-29T13:25:47.211Z</lastmod>
     
   </url>
   
@@ -26,20 +75,6 @@
     <loc>https://zhangxiaocn.github.io/repository/index.html</loc>
     
     <lastmod>2019-10-26T06:23:34.166Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zhangxiaocn.github.io/2019/10/25/hexo-theme-yilia/</loc>
-    
-    <lastmod>2019-10-26T06:16:36.822Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zhangxiaocn.github.io/2019/10/25/create-blog/</loc>
-    
-    <lastmod>2019-10-26T06:16:24.661Z</lastmod>
     
   </url>
   
