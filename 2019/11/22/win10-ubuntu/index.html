@@ -17,16 +17,19 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>友情链接 | ZhangXiao&#39;s Blog</title>
-  <meta property="og:type" content="website">
-<meta property="og:title" content="友情链接">
-<meta property="og:url" content="https:&#x2F;&#x2F;zhangxiaocn.github.io&#x2F;links&#x2F;index.html">
+  <title>安装 Ubuntu18.04 双系统笔记 | ZhangXiao&#39;s Blog</title>
+  <meta name="description" content="1、制作 Ubuntu 系统安装 U盘  下载 Ubuntu 安装镜像，建议下载 LTS 长期支持版：https:&#x2F;&#x2F;ubuntu.com&#x2F;download&#x2F;desktop 使用 ultraiso，或者使用其他镜像制作软件，将 Ubuntu 系统拷至 U 盘里，具体方法百度搜索一堆。   2、前期磁盘准备  在 Win10 中，鼠标右键选择 计算机 --&amp;gt; 管理 --&amp;gt; 磁盘管理 选">
+<meta name="keywords" content="Ubuntu,双系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安装 Ubuntu18.04 双系统笔记">
+<meta property="og:url" content="https:&#x2F;&#x2F;zhangxiaocn.github.io&#x2F;2019&#x2F;11&#x2F;22&#x2F;win10-ubuntu&#x2F;index.html">
 <meta property="og:site_name" content="ZhangXiao&#39;s Blog">
+<meta property="og:description" content="1、制作 Ubuntu 系统安装 U盘  下载 Ubuntu 安装镜像，建议下载 LTS 长期支持版：https:&#x2F;&#x2F;ubuntu.com&#x2F;download&#x2F;desktop 使用 ultraiso，或者使用其他镜像制作软件，将 Ubuntu 系统拷至 U 盘里，具体方法百度搜索一堆。   2、前期磁盘准备  在 Win10 中，鼠标右键选择 计算机 --&amp;gt; 管理 --&amp;gt; 磁盘管理 选">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-26T07:15:40.459Z">
+<meta property="og:updated_time" content="2019-11-22T11:09:36.327Z">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://zhangxiaocn.github.io/links/index.html">
+  <link rel="canonical" href="https://zhangxiaocn.github.io/2019/11/22/win10-ubuntu/index.html">
   
     <link rel="alternate" href="/atom.xml" title="ZhangXiao&#39;s Blog" type="application/atom+xml">
   
@@ -322,47 +325,279 @@
 </aside>
 
   
-  <main class="main" role="main">
-  <article class="article article-links article-type-list" itemscope="">
-  <header class="article-header">
-    <h1 itemprop="title">友情链接</h1>
-    <p class="text-muted">
-      欢迎交换链接，可在当前页面留言
-    </p>
-  </header>
-  <div class="article-body">
-    <div class="row">
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-制作-ubuntu-系统安装-u盘"><span class="toc-number">1.</span> <span class="toc-text"> 1、制作 Ubuntu 系统安装 U盘</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-前期磁盘准备"><span class="toc-number">2.</span> <span class="toc-text"> 2、前期磁盘准备</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-前期-bios-准备"><span class="toc-number">3.</span> <span class="toc-text"> 3、前期 BIOS 准备</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-安装-ubuntu"><span class="toc-number">4.</span> <span class="toc-text"> 4、安装 Ubuntu</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-安装类型配置"><span class="toc-number">5.</span> <span class="toc-text"> 5、安装类型配置</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-win10-ubuntu" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
       
         
-          <div class="col-sm-6 col-md-4">
-            <div class="panel panel-default hover-shadow hover-grow">
-              <figure class="media media-middle">
-                <div class="media-left pr-no">
-                  <a href="https://www.cnblogs.com/zhangxiaochn/" target="_blank" class="img-burn thumb-md media-middle">
-                    <img src="https://files-cdn.cnblogs.com/files/zhangxiaochn/avatar.ico" class="w-full" alt="">
-                  </a>
-                </div>
-                <div class="media-body p-0x">
-                  <h4 class="media-heading"><a href="https://www.cnblogs.com/zhangxiaochn/" target="_blank"><span class="text-dark">滑稽果</span></a></h4>
-                  <div class="text-muted">
-                    我的另一个博客
-                  </div>
-                </div>
-              </figure>
-            </div>
-          </div>
-          
-    </div>
-  </div>
-</article>
-
   
+    <h1 class="article-title" itemprop="name">
+      安装 Ubuntu18.04 双系统笔记
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/22/win10-ubuntu/" class="article-date">
+	  <time datetime="2019-11-22T11:02:38.000Z" itemprop="datePublished">2019-11-22</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F/">安装系统</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/Ubuntu/" rel="tag">Ubuntu</a>, <a class="article-tag-link" href="/tags/%E5%8F%8C%E7%B3%BB%E7%BB%9F/" rel="tag">双系统</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/22/win10-ubuntu/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 762(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 2(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="1-制作-ubuntu-系统安装-u盘"><a class="markdownIt-Anchor" href="#1-制作-ubuntu-系统安装-u盘"></a> 1、制作 Ubuntu 系统安装 U盘</h1>
+<ol>
+<li>下载 Ubuntu 安装镜像，建议下载 LTS 长期支持版：<a href="https://ubuntu.com/download/desktop" target="_blank" rel="noopener">https://ubuntu.com/download/desktop</a></li>
+<li>使用 ultraiso，或者使用其他镜像制作软件，将 Ubuntu 系统拷至 U 盘里，具体方法百度搜索一堆。</li>
+</ol>
+<h1 id="2-前期磁盘准备"><a class="markdownIt-Anchor" href="#2-前期磁盘准备"></a> 2、前期磁盘准备</h1>
+<ol>
+<li>在 Win10 中，鼠标右键选择 <code>计算机</code> --&gt; <code>管理</code> --&gt; <code>磁盘管理</code></li>
+<li>选择你需要安装 Ubuntu 的磁盘，右键选择 <code>压缩卷</code>，压缩一个你需要的空间大小（建议至少 60G，不要分配盘符）</li>
+<li>打开 <code>系统设置</code>  --&gt; <code>系统</code> --&gt; <code>电源和睡眠</code> --&gt; <code>其他电源设置</code> --&gt; <code>选择电源按钮的功能</code> --&gt; <code>更改当前不可用的设置</code> --&gt; <code>关闭启用快速启动的选项</code>（如果上述步骤没找到，可以百度搜索 Win10 关闭快速启动方法）</li>
+</ol>
+<h1 id="3-前期-bios-准备"><a class="markdownIt-Anchor" href="#3-前期-bios-准备"></a> 3、前期 BIOS 准备</h1>
+<ol>
+<li>重启电脑，开机后立刻按 <code>F2</code> 进入 BIOS（如果不是 F2 键，请自行搜索你的电脑的 BIOS 进入按键）</li>
+<li>找到 <code>Security</code> 选项，将 <code>Security Boot</code> 选项关闭</li>
+<li>找到 <code>Fast Boot</code> 选项并关闭</li>
+</ol>
+<h1 id="4-安装-ubuntu"><a class="markdownIt-Anchor" href="#4-安装-ubuntu"></a> 4、安装 Ubuntu</h1>
+<ol>
+<li>关闭电脑，插上刚才制作好的 U 盘</li>
+<li>启动电脑，按 <code>F12</code>，选择 U 盘启动</li>
+<li>接着会出现 Ubuntu 界面，选择 <code>Install Ubuntu</code>（接下来安装过程不要拔掉 U 盘）</li>
+<li>前几步自定义就行，整个过程不要联网，如果出现 <code>安装更新和第三方软件</code> 选项，取消勾选</li>
+<li>接着最重要的一步，出现安装类型界面时，选择 <code>其他选项</code>，不要选择 <code>安装 Ubuntu，与 Windows Boot Manager 共存</code> 这个选项，有点坑</li>
+</ol>
+<h1 id="5-安装类型配置"><a class="markdownIt-Anchor" href="#5-安装类型配置"></a> 5、安装类型配置</h1>
+<ol>
+<li>点击你分配的磁盘，选择加号，进行如下配置：
+<ol>
+<li>SWAP 交换空间（虚拟内存）
+<ol>
+<li>大小：与电脑内存一致</li>
+<li>新分区的类型：主分区</li>
+<li>新分区的位置：空间起始位置</li>
+<li>用于：交换空间</li>
+</ol>
+</li>
+<li>EFI 系统分区（系统引导文件位置）
+<ol>
+<li>大小：建议最少 256MB</li>
+<li>新分区的类型：逻辑分区</li>
+<li>新分区的位置：空间起始位置</li>
+<li>用于：EFI 系统分区</li>
+</ol>
+</li>
+<li>/home（个人文件夹）
+<ol>
+<li>大小：建议最少 8G，存放个人文件的地方</li>
+<li>新分区的类型：逻辑分区</li>
+<li>新分区的位置：空间起始位置</li>
+<li>用于：EXT4 日志文件系统</li>
+<li>挂载点：/home</li>
+</ol>
+</li>
+<li>/（其他目录）
+<ol>
+<li>大小：建议 8G 左右即可</li>
+<li>新分区的类型：逻辑分区</li>
+<li>新分区的位置：空间起始位置</li>
+<li>用于：EXT4 日志文件系统</li>
+<li>挂载点：/</li>
+</ol>
+</li>
+<li>/usr（软件安装位置）
+<ol>
+<li>大小：安装软件的位置，尽量给大一点，将剩下的所有空间都给它就好</li>
+<li>新分区的类型：逻辑分区</li>
+<li>新分区的位置：空间起始位置</li>
+<li>用于：EXT4 日志文件系统</li>
+<li>挂载点：/usr</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>找到你刚才新建的类型为 efi 的设备，在 <code>安装启动引导器的设备</code> 选项中，选中它</li>
+<li>点击 <code>现在安装</code> ，点击 <code>继续</code></li>
+<li>后面的步骤完全自定义即可，没有什么坑了</li>
+</ol>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://zhangxiaocn.github.io/2019/11/22/win10-ubuntu/" title="安装 Ubuntu18.04 双系统笔记" target="_blank" rel="external">https://zhangxiaocn.github.io/2019/11/22/win10-ubuntu/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/zhangxiaocn" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/zhangxiaocn" target="_blank"><span class="text-dark">ZhangXiao</span><small class="ml-1x">清风湿润，茶烟轻扬。</small></a></h3>
+        <div>一个爱折腾的大学生，折腾电脑，折腾手机，折腾各种数码设备。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
   <section id="comments">
   	
       <div id="vcomments"></div>
     
   </section>
 
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2019/11/06/cnblogs-beautify/" title="博客园美化"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
@@ -411,6 +646,12 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 </script>
 <script src="/js/insight.js"></script>
 
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
