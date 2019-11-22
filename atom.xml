@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://zhangxiaocn.github.io/"/>
-  <updated>2019-11-22T11:09:36.327Z</updated>
+  <updated>2019-11-22T11:20:03.463Z</updated>
   <id>https://zhangxiaocn.github.io/</id>
   
   <author>
@@ -17,11 +17,41 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Ubuntu18.04LTS 美化（仿Mac）</title>
+    <link href="https://zhangxiaocn.github.io/2019/11/22/ubuntu-beautify/"/>
+    <id>https://zhangxiaocn.github.io/2019/11/22/ubuntu-beautify/</id>
+    <published>2019-11-22T11:16:32.000Z</published>
+    <updated>2019-11-22T11:20:03.463Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="1-安装美化软件"><a class="markdownIt-Anchor" href="#1-安装美化软件"></a> 1、安装美化软件</h1><ol><li>安装美化软件 gnome-tweak-tool：<code>sudo apt install gnome-tweak-tool</code></li><li>安装完成后，找到名为 <code>优化</code> 的软件并打开</li><li>选择 <code>窗口</code> 选项，将 <code>放置</code> 选项改为 <code>左</code>，其他的根据喜好自定义</li><li>安装相应的插件：<code>sudo apt-get install gnome-shell-extensions</code></li><li>安装完成后，重启系统</li><li>打开 <code>优化</code>，找到 <code>扩展</code> 选项，打开 <code>User themes</code></li><li>关闭软件</li></ol><h1 id="2-安装-mac-主题图标"><a class="markdownIt-Anchor" href="#2-安装-mac-主题图标"></a> 2、安装 Mac 主题/图标</h1><ol><li>打开 Mac 主题网址：<a href="https://www.gnome-look.org/p/1275087/" target="_blank" rel="noopener">https://www.gnome-look.org/p/1275087/</a></li><li>选择 <code>Files</code> 选项，将名为 <code>Mojave-dark.tar.xz</code> 和 <code>Mojave-light.tar.xz</code> 下载下来</li><li>解压下载完成的主题压缩包</li><li>在解压的主题所在目录，打开终端</li><li>将主题放入系统主题目录：<code>sudo cp -r Mojave-light/ /usr/share/themes/</code>、<code>sudo cp -r Mojave-dark/ /usr/share/themes/</code></li><li>打开 <code>优化</code> 软件，选择 <code>外观</code> 选项，找到 <code>主题</code>，将主题改为 Mac 主题</li><li>找到 <code>shell</code>，改为 Mac 主题</li><li>打开 Mac 图标网址：<a href="https://www.opendesktop.org/s/Gnome/p/1102582/" target="_blank" rel="noopener">https://www.opendesktop.org/s/Gnome/p/1102582/</a></li><li>选择 <code>Files</code> 选项，将名为 <code>Cupertino.tar.xz</code> 的文件下载下来</li><li>解压下载完成的图标压缩包</li><li>在解压的主题所在目录，打开终端</li><li>将主题放入系统图标目录：<code>sudo cp -r Cupertino-Mojave/ /usr/share/icons/</code></li><li>打开 <code>优化</code> 软件，选择 <code>外观</code> 选项，找到 <code>图标</code>，将图标改为 Mac 图标即可</li></ol><h1 id="3-安装相应扩展"><a class="markdownIt-Anchor" href="#3-安装相应扩展"></a> 3、安装相应扩展</h1><ol><li>打开 Ubuntu 应用商店，安装 Dash to Dock</li><li>用火狐浏览器打开：<a href="https://extensions.gnome.org/" target="_blank" rel="noopener">https://extensions.gnome.org/</a></li><li>点击提示栏里的 <code>Click here to install browser extension</code> 选项，允许安装</li><li>终端输入：<code>sudo apt-get install chrome-gnome-shell</code> 安装浏览器插件</li><li>刷新浏览器界面</li><li>搜索 <code>Dash to Dock</code> 并安装（Dock 栏扩展）</li><li>搜索 <code>Coverflow Alt-Tab</code> 并安装（切换窗口扩展）</li><li>搜索 <code>Open Weather</code> 并安装（天气扩展）</li><li>搜索 <code>Screenshot Tool</code> 并安装（截图扩展）<br />10.搜索 <code>Simple net speed</code> 并安装（网速指示扩展）</li><li>打开 <code>优化</code>，找到 <code>扩展</code>，点击每个扩展后面的齿轮图标，可以对下载的扩展进行相应设置</li><li>其他的插件根据需要下载</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;1-安装美化软件&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#1-安装美化软件&quot;&gt;&lt;/a&gt; 1、安装美化软件&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;安装美化软件 gnome-tweak-tool：&lt;code&gt;sudo apt install g
+      
+    
+    </summary>
+    
+    
+      <category term="Ubuntu" scheme="https://zhangxiaocn.github.io/categories/Ubuntu/"/>
+    
+    
+      <category term="美化" scheme="https://zhangxiaocn.github.io/tags/%E7%BE%8E%E5%8C%96/"/>
+    
+      <category term="Ubuntu" scheme="https://zhangxiaocn.github.io/tags/Ubuntu/"/>
+    
+  </entry>
+  
+  <entry>
     <title>安装 Ubuntu18.04 双系统笔记</title>
     <link href="https://zhangxiaocn.github.io/2019/11/22/win10-ubuntu/"/>
     <id>https://zhangxiaocn.github.io/2019/11/22/win10-ubuntu/</id>
     <published>2019-11-22T11:02:38.000Z</published>
-    <updated>2019-11-22T11:09:36.327Z</updated>
+    <updated>2019-11-22T11:18:41.957Z</updated>
     
     <content type="html"><![CDATA[<h1 id="1-制作-ubuntu-系统安装-u盘"><a class="markdownIt-Anchor" href="#1-制作-ubuntu-系统安装-u盘"></a> 1、制作 Ubuntu 系统安装 U盘</h1><ol><li>下载 Ubuntu 安装镜像，建议下载 LTS 长期支持版：<a href="https://ubuntu.com/download/desktop" target="_blank" rel="noopener">https://ubuntu.com/download/desktop</a></li><li>使用 ultraiso，或者使用其他镜像制作软件，将 Ubuntu 系统拷至 U 盘里，具体方法百度搜索一堆。</li></ol><h1 id="2-前期磁盘准备"><a class="markdownIt-Anchor" href="#2-前期磁盘准备"></a> 2、前期磁盘准备</h1><ol><li>在 Win10 中，鼠标右键选择 <code>计算机</code> --&gt; <code>管理</code> --&gt; <code>磁盘管理</code></li><li>选择你需要安装 Ubuntu 的磁盘，右键选择 <code>压缩卷</code>，压缩一个你需要的空间大小（建议至少 60G，不要分配盘符）</li><li>打开 <code>系统设置</code>  --&gt; <code>系统</code> --&gt; <code>电源和睡眠</code> --&gt; <code>其他电源设置</code> --&gt; <code>选择电源按钮的功能</code> --&gt; <code>更改当前不可用的设置</code> --&gt; <code>关闭启用快速启动的选项</code>（如果上述步骤没找到，可以百度搜索 Win10 关闭快速启动方法）</li></ol><h1 id="3-前期-bios-准备"><a class="markdownIt-Anchor" href="#3-前期-bios-准备"></a> 3、前期 BIOS 准备</h1><ol><li>重启电脑，开机后立刻按 <code>F2</code> 进入 BIOS（如果不是 F2 键，请自行搜索你的电脑的 BIOS 进入按键）</li><li>找到 <code>Security</code> 选项，将 <code>Security Boot</code> 选项关闭</li><li>找到 <code>Fast Boot</code> 选项并关闭</li></ol><h1 id="4-安装-ubuntu"><a class="markdownIt-Anchor" href="#4-安装-ubuntu"></a> 4、安装 Ubuntu</h1><ol><li>关闭电脑，插上刚才制作好的 U 盘</li><li>启动电脑，按 <code>F12</code>，选择 U 盘启动</li><li>接着会出现 Ubuntu 界面，选择 <code>Install Ubuntu</code>（接下来安装过程不要拔掉 U 盘）</li><li>前几步自定义就行，整个过程不要联网，如果出现 <code>安装更新和第三方软件</code> 选项，取消勾选</li><li>接着最重要的一步，出现安装类型界面时，选择 <code>其他选项</code>，不要选择 <code>安装 Ubuntu，与 Windows Boot Manager 共存</code> 这个选项，有点坑</li></ol><h1 id="5-安装类型配置"><a class="markdownIt-Anchor" href="#5-安装类型配置"></a> 5、安装类型配置</h1><ol><li>点击你分配的磁盘，选择加号，进行如下配置：<ol><li>SWAP 交换空间（虚拟内存）<ol><li>大小：与电脑内存一致</li><li>新分区的类型：主分区</li><li>新分区的位置：空间起始位置</li><li>用于：交换空间</li></ol></li><li>EFI 系统分区（系统引导文件位置）<ol><li>大小：建议最少 256MB</li><li>新分区的类型：逻辑分区</li><li>新分区的位置：空间起始位置</li><li>用于：EFI 系统分区</li></ol></li><li>/home（个人文件夹）<ol><li>大小：建议最少 8G，存放个人文件的地方</li><li>新分区的类型：逻辑分区</li><li>新分区的位置：空间起始位置</li><li>用于：EXT4 日志文件系统</li><li>挂载点：/home</li></ol></li><li>/（其他目录）<ol><li>大小：建议 8G 左右即可</li><li>新分区的类型：逻辑分区</li><li>新分区的位置：空间起始位置</li><li>用于：EXT4 日志文件系统</li><li>挂载点：/</li></ol></li><li>/usr（软件安装位置）<ol><li>大小：安装软件的位置，尽量给大一点，将剩下的所有空间都给它就好</li><li>新分区的类型：逻辑分区</li><li>新分区的位置：空间起始位置</li><li>用于：EXT4 日志文件系统</li><li>挂载点：/usr</li></ol></li></ol></li><li>找到你刚才新建的类型为 efi 的设备，在 <code>安装启动引导器的设备</code> 选项中，选中它</li><li>点击 <code>现在安装</code> ，点击 <code>继续</code></li><li>后面的步骤完全自定义即可，没有什么坑了</li></ol>]]></content>
     
@@ -37,7 +67,7 @@
     </summary>
     
     
-      <category term="安装系统" scheme="https://zhangxiaocn.github.io/categories/%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F/"/>
+      <category term="Ubuntu" scheme="https://zhangxiaocn.github.io/categories/Ubuntu/"/>
     
     
       <category term="Ubuntu" scheme="https://zhangxiaocn.github.io/tags/Ubuntu/"/>
@@ -74,9 +104,9 @@
     
       <category term="Blog" scheme="https://zhangxiaocn.github.io/tags/Blog/"/>
     
-      <category term="美化" scheme="https://zhangxiaocn.github.io/tags/%E7%BE%8E%E5%8C%96/"/>
-    
       <category term="博客园" scheme="https://zhangxiaocn.github.io/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD/"/>
+    
+      <category term="美化" scheme="https://zhangxiaocn.github.io/tags/%E7%BE%8E%E5%8C%96/"/>
     
   </entry>
   
@@ -281,9 +311,9 @@
     
       <category term="Blog" scheme="https://zhangxiaocn.github.io/tags/Blog/"/>
     
-      <category term="Hexo" scheme="https://zhangxiaocn.github.io/tags/Hexo/"/>
-    
       <category term="美化" scheme="https://zhangxiaocn.github.io/tags/%E7%BE%8E%E5%8C%96/"/>
+    
+      <category term="Hexo" scheme="https://zhangxiaocn.github.io/tags/Hexo/"/>
     
   </entry>
   
@@ -342,9 +372,9 @@
     
       <category term="Blog" scheme="https://zhangxiaocn.github.io/tags/Blog/"/>
     
-      <category term="Hexo" scheme="https://zhangxiaocn.github.io/tags/Hexo/"/>
-    
       <category term="美化" scheme="https://zhangxiaocn.github.io/tags/%E7%BE%8E%E5%8C%96/"/>
+    
+      <category term="Hexo" scheme="https://zhangxiaocn.github.io/tags/Hexo/"/>
     
   </entry>
   
