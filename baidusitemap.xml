@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://zhangxiaocn.github.io/2019/12/02/ros-tf/</loc>
+    <lastmod>2019-12-02</lastmod>
+  </url>  <url>
+    <loc>https://zhangxiaocn.github.io/2019/12/02/ros-%C2%96%C2%96communication/</loc>
+    <lastmod>2019-12-02</lastmod>
+  </url>  <url>
+    <loc>https://zhangxiaocn.github.io/2019/12/02/ros-turtle/</loc>
+    <lastmod>2019-12-02</lastmod>
+  </url>  <url>
     <loc>https://zhangxiaocn.github.io/2019/10/29/iar-setting/</loc>
     <lastmod>2019-11-30</lastmod>
   </url>  <url>

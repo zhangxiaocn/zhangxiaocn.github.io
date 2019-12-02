@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>初级 ROS 通信编程流程 | ZhangXiao&#39;s Blog</title>
+  <meta name="description" content="笔记整理记录自：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av69417218   1、话题编程  1.1、新建工作空间  新建 catkin_ws 文件：mkdir -p catkin_ws&#x2F;src 进入 catkin_ws 目录：cd catkin_ws 初始化：catkin_make 进入 src 文件：cd src 创建用于通信的 package：catkin_cre">
+<meta name="keywords" content="ROS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初级 ROS 通信编程流程">
+<meta property="og:url" content="https:&#x2F;&#x2F;zhangxiaocn.github.io&#x2F;2019&#x2F;12&#x2F;02&#x2F;ros-%C2%96%C2%96communication&#x2F;index.html">
+<meta property="og:site_name" content="ZhangXiao&#39;s Blog">
+<meta property="og:description" content="笔记整理记录自：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;av69417218   1、话题编程  1.1、新建工作空间  新建 catkin_ws 文件：mkdir -p catkin_ws&#x2F;src 进入 catkin_ws 目录：cd catkin_ws 初始化：catkin_make 进入 src 文件：cd src 创建用于通信的 package：catkin_cre">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-12-02T12:27:41.569Z">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://zhangxiaocn.github.io/2019/12/02/ros-%C2%96%C2%96communication/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="ZhangXiao&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/zhangxiaocn" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">ZhangXiao</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">清风湿润，茶烟轻扬。</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Jilin, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/zhangxiaocn" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎来到我的个人博客</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Blog/">Blog</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Ubuntu/">Ubuntu</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Blog/" rel="tag">Blog</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IAR/" rel="tag">IAR</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/K60/" rel="tag">K60</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenMV/" rel="tag">OpenMV</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PID/" rel="tag">PID</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ROS/" rel="tag">ROS</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/" rel="tag">Ubuntu</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD/" rel="tag">博客园</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8C%E7%B3%BB%E7%BB%9F/" rel="tag">双系统</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%9E%E5%BF%86/" rel="tag">回忆</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E5%8F%91%E8%BD%AF%E4%BB%B6/" rel="tag">开发软件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BE%8E%E5%8C%96/" rel="tag">美化</a><span class="tag-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Blog/" style="font-size: 14px;">Blog</a> <a href="/tags/C/" style="font-size: 13px;">C</a> <a href="/tags/Hexo/" style="font-size: 13.75px;">Hexo</a> <a href="/tags/IAR/" style="font-size: 13px;">IAR</a> <a href="/tags/K60/" style="font-size: 13.25px;">K60</a> <a href="/tags/OpenMV/" style="font-size: 13px;">OpenMV</a> <a href="/tags/PID/" style="font-size: 13px;">PID</a> <a href="/tags/ROS/" style="font-size: 13.5px;">ROS</a> <a href="/tags/Ubuntu/" style="font-size: 13.25px;">Ubuntu</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E5%9B%AD/" style="font-size: 13px;">博客园</a> <a href="/tags/%E5%8F%8C%E7%B3%BB%E7%BB%9F/" style="font-size: 13px;">双系统</a> <a href="/tags/%E5%9B%9E%E5%BF%86/" style="font-size: 13px;">回忆</a> <a href="/tags/%E5%BC%80%E5%8F%91%E8%BD%AF%E4%BB%B6/" style="font-size: 13px;">开发软件</a> <a href="/tags/%E7%BE%8E%E5%8C%96/" style="font-size: 13.75px;">美化</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">10</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/12/02/ros-tf/" class="title">TF 坐标变换（跟踪小海龟例程）</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-12-02T12:29:00.000Z" itemprop="datePublished">2019-12-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/12/02/ros-%C2%96%C2%96communication/" class="title">初级 ROS 通信编程流程</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-12-02T12:25:50.000Z" itemprop="datePublished">2019-12-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/12/02/ros-turtle/" class="title">ROS Melodic 小海龟操控实例</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-12-02T12:20:10.000Z" itemprop="datePublished">2019-12-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Ubuntu/">Ubuntu</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/11/22/ubuntu-beautify/" class="title">Ubuntu18.04LTS 美化（仿Mac）</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-11-22T11:16:32.000Z" itemprop="datePublished">2019-11-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Ubuntu/">Ubuntu</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/11/22/win10-ubuntu/" class="title">安装 Ubuntu18.04 双系统笔记</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-11-22T11:02:38.000Z" itemprop="datePublished">2019-11-22</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-话题编程"><span class="toc-number">1.</span> <span class="toc-text"> 1、话题编程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#11-新建工作空间"><span class="toc-number">1.1.</span> <span class="toc-text"> 1.1、新建工作空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-创建编程文件"><span class="toc-number">1.2.</span> <span class="toc-text"> 1.2、创建编程文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-配置"><span class="toc-number">1.3.</span> <span class="toc-text"> 1.3、配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14-运行"><span class="toc-number">1.4.</span> <span class="toc-text"> 1.4、运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#15-自定义话题消息添加-msg"><span class="toc-number">1.5.</span> <span class="toc-text"> *1.5、自定义话题消息（添加 msg）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-服务编程加法例程"><span class="toc-number">2.</span> <span class="toc-text"> 2、服务编程（加法例程）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#21-新建工作空间"><span class="toc-number">2.1.</span> <span class="toc-text"> 2.1、新建工作空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#22-创建-srv-文件"><span class="toc-number">2.2.</span> <span class="toc-text"> 2.2、创建 srv 文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#23-配置"><span class="toc-number">2.3.</span> <span class="toc-text"> 2.3、配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#24-添加用户程序"><span class="toc-number">2.4.</span> <span class="toc-text"> 2.4、添加用户程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#25-再配置"><span class="toc-number">2.5.</span> <span class="toc-text"> 2.5、再配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#26-运行"><span class="toc-number">2.6.</span> <span class="toc-text"> 2.6、运行</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-动作编程洗盘子例程"><span class="toc-number">3.</span> <span class="toc-text"> 3、动作编程（洗盘子例程）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#31-新建工作空间"><span class="toc-number">3.1.</span> <span class="toc-text"> 3.1、新建工作空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#32-创建-action-文件"><span class="toc-number">3.2.</span> <span class="toc-text"> 3.2、创建 action 文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#33-配置"><span class="toc-number">3.3.</span> <span class="toc-text"> 3.3、配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#34-添加用户程序"><span class="toc-number">3.4.</span> <span class="toc-text"> 3.4、添加用户程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#35-再配置"><span class="toc-number">3.5.</span> <span class="toc-text"> 3.5、再配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#36-运行"><span class="toc-number">3.6.</span> <span class="toc-text"> 3.6、运行</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-ros-communication" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      初级 ROS 通信编程流程
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/12/02/ros-%C2%96%C2%96communication/" class="article-date">
+	  <time datetime="2019-12-02T12:25:50.000Z" itemprop="datePublished">2019-12-02</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/ROS/" rel="tag">ROS</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/12/02/ros-%C2%96%C2%96communication/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2.2k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 10(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <blockquote>
+<p>笔记整理记录自：<a href="https://www.bilibili.com/video/av69417218" target="_blank" rel="noopener">https://www.bilibili.com/video/av69417218</a></p>
+</blockquote>
+<h1 id="1-话题编程"><a class="markdownIt-Anchor" href="#1-话题编程"></a> 1、话题编程</h1>
+<h2 id="11-新建工作空间"><a class="markdownIt-Anchor" href="#11-新建工作空间"></a> 1.1、新建工作空间</h2>
+<ol>
+<li>新建 catkin_ws 文件：<code>mkdir -p catkin_ws/src</code></li>
+<li>进入 catkin_ws 目录：<code>cd catkin_ws</code></li>
+<li>初始化：<code>catkin_make</code></li>
+<li>进入 src 文件：<code>cd src</code></li>
+<li>创建用于通信的 package：<code>catkin_create_pkg learning_test1 std_msgs rospy roscpp</code></li>
+<li>编译一下：<code>catkin_make</code></li>
+<li>添加 source：<code>echo &quot;source ~/catkin_ws/devel/setup.zsh &quot; &gt;&gt; ~/.zshrc</code></li>
+<li>返回根目录：<code>cd</code></li>
+<li>查看 source 是否添加：<code>gedit .zshrc</code> 或者 <code>vi .zshrc</code></li>
+</ol>
+<h2 id="12-创建编程文件"><a class="markdownIt-Anchor" href="#12-创建编程文件"></a> 1.2、创建编程文件</h2>
+<ol>
+<li>找到刚才的工作空间：<code>cd ~/catkin_ws/src/learning_test1/src</code></li>
+<li>新建 <code>talker.cpp</code> 文件：<code>gedit talker.cpp</code></li>
+<li>保存如下代码：</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 该例程将发布chatter话题，消息类型String</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"ros/ros.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"std_msgs/String.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">// ROS节点初始化</span></span><br><span class="line">  ros::init(argc, argv, <span class="string">"talker"</span>);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 创建节点句柄</span></span><br><span class="line">  ros::NodeHandle n;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 创建一个Publisher，发布名为chatter的topic，消息类型为std_msgs::String</span></span><br><span class="line">  ros::Publisher chatter_pub = n.advertise&lt;std_msgs::String&gt;(<span class="string">"chatter"</span>, <span class="number">1000</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 设置循环的频率</span></span><br><span class="line">  ros::<span class="function">Rate <span class="title">loop_rate</span><span class="params">(<span class="number">10</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">while</span> (ros::ok())</span><br><span class="line">  &#123;</span><br><span class="line">	<span class="comment">// 初始化std_msgs::String类型的消息</span></span><br><span class="line">    std_msgs::String msg;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">stringstream</span> ss;</span><br><span class="line">    ss &lt;&lt; <span class="string">"hello world "</span> &lt;&lt; count;</span><br><span class="line">    msg.data = ss.str();</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 发布消息</span></span><br><span class="line">    ROS_INFO(<span class="string">"%s"</span>, msg.data.c_str());</span><br><span class="line">    chatter_pub.publish(msg);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 循环等待回调函数</span></span><br><span class="line">    ros::spinOnce();</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 按照循环频率延时</span></span><br><span class="line">    loop_rate.sleep();</span><br><span class="line">    ++count;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>新建 <code>listener.cpp</code> 文件：<code>gedit listener.cpp</code></li>
+<li>保存如下代码：</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 该例程将订阅chatter话题，消息类型String</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"ros/ros.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"std_msgs/String.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 接收到订阅的消息后，会进入消息回调函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">chatterCallback</span><span class="params">(<span class="keyword">const</span> std_msgs::String::ConstPtr&amp; msg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">// 将接收到的消息打印出来</span></span><br><span class="line">  ROS_INFO(<span class="string">"I heard: [%s]"</span>, msg-&gt;data.c_str());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">// 初始化ROS节点</span></span><br><span class="line">  ros::init(argc, argv, <span class="string">"listener"</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 创建节点句柄</span></span><br><span class="line">  ros::NodeHandle n;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 创建一个Subscriber，订阅名为chatter的topic，注册回调函数chatterCallback</span></span><br><span class="line">  ros::Subscriber sub = n.subscribe(<span class="string">"chatter"</span>, <span class="number">1000</span>, chatterCallback);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 循环等待回调函数</span></span><br><span class="line">  ros::spin();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="13-配置"><a class="markdownIt-Anchor" href="#13-配置"></a> 1.3、配置</h2>
+<ol>
+<li>找到刚才的工作空间：<code>cd ~/catkin_ws/src/learning_test1/</code></li>
+<li>编辑 <code>CMakeLists.txt</code> 文件：<code>gedit CMakeLists.txt</code></li>
+<li>保存如下代码：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">add_executable(talker src/talker.cpp)</span><br><span class="line">add_executable(listener src/listener.cpp)</span><br><span class="line">target_link_libraries(talker $&#123;catkin_LIBRARIES&#125;)</span><br><span class="line">target_link_libraries(listener $&#123;catkin_LIBRARIES&#125;)</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>返回主目录：<code>cd ~/catkin_ws/</code></li>
+<li>编译一下：<code>catkin_make</code></li>
+</ol>
+<h2 id="14-运行"><a class="markdownIt-Anchor" href="#14-运行"></a> 1.4、运行</h2>
+<ol>
+<li>新建终端，启动 ros：<code>roscore</code></li>
+<li>新建终端，启动 listener：<code>rosrun learning_test1 listener</code></li>
+<li>新建终端，启动 talker：<code>rosrun learning_test1 talker</code></li>
+<li>即可看到效果</li>
+</ol>
+<h2 id="15-自定义话题消息添加-msg"><a class="markdownIt-Anchor" href="#15-自定义话题消息添加-msg"></a> *1.5、自定义话题消息（添加 msg）</h2>
+<ol>
+<li>找到刚才的工作空间：<code>cd ~/catkin_ws/src/learning_test1/</code></li>
+<li>新建一个 msg 文件夹：<code>mkdir msg</code></li>
+<li>进入 msg 文件夹：<code>cd msg</code></li>
+<li>新建一个名为 <code>Person.msg</code> 的文件：<code>gedit Person.msg</code></li>
+<li>保存如下测试代码：</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> name</span><br><span class="line">uint8  sex</span><br><span class="line">uint8  age</span><br><span class="line"></span><br><span class="line">uint8 unknown = <span class="number">0</span></span><br><span class="line">uint8 male    = <span class="number">1</span></span><br><span class="line">uint8 female  = <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>退回上一个文件夹：<code>cd ..</code></li>
+<li>修改 <code>package.xml</code> 文件，添加功能包依赖：<code>gedit package.xml</code></li>
+<li>添加如下代码：</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build_depend</span>&gt;</span>message_generation<span class="tag">&lt;/<span class="name">build_depend</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">exec_depend</span>&gt;</span>message_runtime<span class="tag">&lt;/<span class="name">exec_depend</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ol start="9">
+<li>修改 <code>CMakeLists.txt</code> 文件，添加功能包依赖：<code>gedit CMakeLists.txt</code></li>
+<li>添加如下代码（注意添加的位置，放错位置会报错）：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">find_package(..... message_generation)</span><br><span class="line">catkin_package(CATKIN_DEPENDS roscpp rospy std_msgs message_runtime)</span><br><span class="line">add_message_files(FILES Person.msg)</span><br><span class="line">generate_messages(DEPENDENCIES std_msgs)</span><br></pre></td></tr></table></figure>
+<ol start="11">
+<li>返回主目录：<code>cd ~/catkin_ws/</code></li>
+<li>编译一下：<code>catkin_make</code></li>
+</ol>
+<blockquote>
+<p>可以用 <code>rosmsg show Person</code> 命令查看 <code>Person.msg</code> 的内容</p>
+</blockquote>
+<h1 id="2-服务编程加法例程"><a class="markdownIt-Anchor" href="#2-服务编程加法例程"></a> 2、服务编程（加法例程）</h1>
+<h2 id="21-新建工作空间"><a class="markdownIt-Anchor" href="#21-新建工作空间"></a> 2.1、新建工作空间</h2>
+<ol>
+<li>方法和话题编程第一步一样，注意换一个 package 名称，例如：<code>catkin_create_pkg learning_test2 std_msgs rospy roscpp</code></li>
+</ol>
+<h2 id="22-创建-srv-文件"><a class="markdownIt-Anchor" href="#22-创建-srv-文件"></a> 2.2、创建 srv 文件</h2>
+<ol>
+<li>找到刚才的工作空间：<code>cd ~/catkin_ws/src/learning_test2/</code></li>
+<li>新建 <code>srv</code> 文件夹：<code>mkdir srv</code></li>
+<li>新建文件：<code>gedit AddTwoInts.srv</code></li>
+<li>保存如下代码：</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int64 a    <span class="comment">// 服务的请求数据</span></span><br><span class="line">int64 b</span><br><span class="line">---</span><br><span class="line">int64 sum  <span class="comment">// 服务的应答数据</span></span><br></pre></td></tr></table></figure>
+<h2 id="23-配置"><a class="markdownIt-Anchor" href="#23-配置"></a> 2.3、配置</h2>
+<ol>
+<li>找到刚才的工作空间：<code>cd ~/catkin_ws/src/learning_test2/</code></li>
+<li>编辑 <code>package.xml</code> 文件：<code>gedit package.xml</code></li>
+<li>保存如下代码：</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build_depend</span>&gt;</span>message_generation<span class="tag">&lt;/<span class="name">build_depend</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">exec_depend</span>&gt;</span>message_runtime<span class="tag">&lt;/<span class="name">exec_depend</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>编辑 <code>CMakeLists.txt</code> 文件：<code>gedit CMakeLists.txt</code></li>
+<li>保存如下代码</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">find_package(.... message_generation)</span><br><span class="line">catkin_package(.... message_runtime)</span><br><span class="line">add_service_files(FILES AddTwoInts.srv)</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>返回主目录：<code>cd ~/catkin_ws/</code></li>
+<li>编译一下：<code>catkin_make</code></li>
+</ol>
+<h2 id="24-添加用户程序"><a class="markdownIt-Anchor" href="#24-添加用户程序"></a> 2.4、添加用户程序</h2>
+<ol>
+<li>找到刚才的工作空间：<code>cd ~/catkin_ws/src/learning_test2/src</code></li>
+<li>新建 <code>server.cpp</code> 文件：<code>gedit server.cpp</code></li>
+<li>保存如下代码：</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * AddTwoInts Server</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"ros/ros.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"learning_test2/AddTwoInts.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// service回调函数，输入参数req，输出参数res</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">add</span><span class="params">(learning_test2::AddTwoInts::Request  &amp;req,</span></span></span><br><span class="line"><span class="function"><span class="params">         learning_test2::AddTwoInts::Response &amp;res)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">// 将输入参数中的请求数据相加，结果放到应答变量中</span></span><br><span class="line">  res.sum = req.a + req.b;</span><br><span class="line">  ROS_INFO(<span class="string">"request: x=%ld, y=%ld"</span>, (<span class="keyword">long</span> <span class="keyword">int</span>)req.a, (<span class="keyword">long</span> <span class="keyword">int</span>)req.b);</span><br><span class="line">  ROS_INFO(<span class="string">"sending back response: [%ld]"</span>, (<span class="keyword">long</span> <span class="keyword">int</span>)res.sum);</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">// ROS节点初始化</span></span><br><span class="line">  ros::init(argc, argv, <span class="string">"add_two_ints_server"</span>);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 创建节点句柄</span></span><br><span class="line">  ros::NodeHandle n;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 创建一个名为add_two_ints的server，注册回调函数add()</span></span><br><span class="line">  ros::ServiceServer service = n.advertiseService(<span class="string">"add_two_ints"</span>, add);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 循环等待回调函数</span></span><br><span class="line">  ROS_INFO(<span class="string">"Ready to add two ints."</span>);</span><br><span class="line">  ros::spin();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>新建 <code>client.cpp</code> 文件：<code>gedit client.cpp</code></li>
+<li>保存如下代码：</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * AddTwoInts Client</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"ros/ros.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"learning_test2/AddTwoInts.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">// ROS节点初始化</span></span><br><span class="line">  ros::init(argc, argv, <span class="string">"add_two_ints_client"</span>);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 从终端命令行获取两个加数</span></span><br><span class="line">  <span class="keyword">if</span> (argc != <span class="number">3</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    ROS_INFO(<span class="string">"usage: add_two_ints_client X Y"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 创建节点句柄</span></span><br><span class="line">  ros::NodeHandle n;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 创建一个client，请求add_two_int service，service消息类型是learning_communication::AddTwoInts</span></span><br><span class="line">  ros::ServiceClient client = n.serviceClient&lt;learning_test2::AddTwoInts&gt;(<span class="string">"add_two_ints"</span>);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 创建learning_communication::AddTwoInts类型的service消息</span></span><br><span class="line">  learning_test2::AddTwoInts srv;</span><br><span class="line">  srv.request.a = atoll(argv[<span class="number">1</span>]);</span><br><span class="line">  srv.request.b = atoll(argv[<span class="number">2</span>]);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 发布service请求，等待加法运算的应答结果</span></span><br><span class="line">  <span class="keyword">if</span> (client.call(srv))</span><br><span class="line">  &#123;</span><br><span class="line">    ROS_INFO(<span class="string">"Sum: %ld"</span>, (<span class="keyword">long</span> <span class="keyword">int</span>)srv.response.sum);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  &#123;</span><br><span class="line">    ROS_ERROR(<span class="string">"Failed to call service add_two_ints"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="25-再配置"><a class="markdownIt-Anchor" href="#25-再配置"></a> 2.5、再配置</h2>
+<ol>
+<li>找到刚才的工作空间：<code>cd ~/catkin_ws/src/learning_test2/</code></li>
+<li>编辑 <code>CMakeLists.txt</code> 文件：<code>gedit CMakeLists.txt</code></li>
+<li>保存如下代码：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">add_executable(server src/server.cpp)</span><br><span class="line">target_link_libraries(server $&#123;catkin_LIBRARIES&#125;)</span><br><span class="line">add_dependencies(server $&#123;PROJECT_NAME&#125;_gencpp)</span><br><span class="line"></span><br><span class="line">add_executable(client src/client.cpp)</span><br><span class="line">target_link_libraries(client $&#123;catkin_LIBRARIES&#125;)</span><br><span class="line">add_dependencies(client $&#123;PROJECT_NAME&#125;_gencpp)</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>返回主目录：<code>cd ~/catkin_ws/</code></li>
+<li>编译一下：<code>catkin_make</code></li>
+</ol>
+<h2 id="26-运行"><a class="markdownIt-Anchor" href="#26-运行"></a> 2.6、运行</h2>
+<ol>
+<li>新建终端，启动 ros：<code>roscore</code></li>
+<li>新建终端，启动 server：<code>rosrun learning_test2 server</code></li>
+<li>新建终端，启动 client：<code>rosrun learning_test1 client 3 5</code></li>
+<li>即可看到效果（3+5=8）</li>
+</ol>
+<h1 id="3-动作编程洗盘子例程"><a class="markdownIt-Anchor" href="#3-动作编程洗盘子例程"></a> 3、动作编程（洗盘子例程）</h1>
+<h2 id="31-新建工作空间"><a class="markdownIt-Anchor" href="#31-新建工作空间"></a> 3.1、新建工作空间</h2>
+<ol>
+<li>方法和话题编程第一步一样，注意换一个 package 名称，例如：<code>catkin_create_pkg learning_tes3 std_msgs rospy roscpp</code></li>
+</ol>
+<h2 id="32-创建-action-文件"><a class="markdownIt-Anchor" href="#32-创建-action-文件"></a> 3.2、创建 action 文件</h2>
+<ol>
+<li>找到刚才的工作空间：<code>cd ~/catkin_ws/src/learning_test3/</code></li>
+<li>新建 <code>action</code> 文件夹：<code>mkdir action</code></li>
+<li>新建文件：<code>gedit DoDishes.action</code></li>
+<li>保存如下代码：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Define the goal</span><br><span class="line">uint32 dishwasher_id  # Specify which dishwasher we want to use</span><br><span class="line">---</span><br><span class="line"># Define the result</span><br><span class="line">uint32 total_dishes_cleaned</span><br><span class="line">---</span><br><span class="line"># Define a feedback message</span><br><span class="line">float32 percent_complete</span><br></pre></td></tr></table></figure>
+<h2 id="33-配置"><a class="markdownIt-Anchor" href="#33-配置"></a> 3.3、配置</h2>
+<ol>
+<li>找到刚才的工作空间：<code>cd ~/catkin_ws/src/learning_test3/</code></li>
+<li>编辑 <code>package.xml</code> 文件：<code>gedit package.xml</code></li>
+<li>保存如下代码：</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build_depend</span>&gt;</span>actionlib<span class="tag">&lt;/<span class="name">build_depend</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">build_depend</span>&gt;</span>actionlib_msgs<span class="tag">&lt;/<span class="name">build_depend</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">exec_depend</span>&gt;</span>actionlib<span class="tag">&lt;/<span class="name">exec_depend</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">exec_depend</span>&gt;</span>actionlib_msgs<span class="tag">&lt;/<span class="name">exec_depend</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>编辑 <code>CMakeLists.txt</code> 文件：<code>gedit CMakeLists.txt</code></li>
+<li>保存如下代码</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">find_package(catkin REQUIRED actionlib_msgs actionlib)</span><br><span class="line">add_action_files(DIRECTORY action FILES DoDishes.action)</span><br><span class="line">generate_messages(DEPENDENCIES actionlib_msgs)</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>返回主目录：<code>cd ~/catkin_ws/</code></li>
+<li>编译一下：<code>catkin_make</code></li>
+</ol>
+<h2 id="34-添加用户程序"><a class="markdownIt-Anchor" href="#34-添加用户程序"></a> 3.4、添加用户程序</h2>
+<ol>
+<li>找到刚才的工作空间：<code>cd ~/catkin_ws/src/learning_test3/src</code></li>
+<li>新建 <code>DoDishes_server.cpp</code> 文件：<code>gedit DoDishes_server.cpp</code></li>
+<li>保存如下代码：</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ros/ros.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;actionlib/server/simple_action_server.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"learning_test3/DoDishesAction.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> actionlib::SimpleActionServer&lt;learning_test3::DoDishesAction&gt; Server;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 收到action的goal后调用该回调函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">execute</span><span class="params">(<span class="keyword">const</span> learning_test3::DoDishesGoalConstPtr&amp; goal, Server* as)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ros::<span class="function">Rate <span class="title">r</span><span class="params">(<span class="number">1</span>)</span></span>;</span><br><span class="line">    learning_test3::DoDishesFeedback feedback;</span><br><span class="line"></span><br><span class="line">    ROS_INFO(<span class="string">"Dishwasher %d is working."</span>, goal-&gt;dishwasher_id);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 假设洗盘子的进度，并且按照1hz的频率发布进度feedback</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=<span class="number">10</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        feedback.percent_complete = i * <span class="number">10</span>;</span><br><span class="line">        as-&gt;publishFeedback(feedback);</span><br><span class="line">        r.sleep();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 当action完成后，向客户端返回结果</span></span><br><span class="line">    ROS_INFO(<span class="string">"Dishwasher %d finish working."</span>, goal-&gt;dishwasher_id);</span><br><span class="line">    as-&gt;setSucceeded();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ros::init(argc, argv, <span class="string">"do_dishes_server"</span>);</span><br><span class="line">    ros::NodeHandle n;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 定义一个服务器</span></span><br><span class="line">    <span class="function">Server <span class="title">server</span><span class="params">(n, <span class="string">"do_dishes"</span>, boost::bind(&amp;execute, _1, &amp;server), <span class="literal">false</span>)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 服务器开始运行</span></span><br><span class="line">    server.start();</span><br><span class="line"></span><br><span class="line">    ros::spin();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>
+<p>新建 <code>DoDishes_client.cpp</code> 文件：<code>gedit DoDishes_client.cpp</code></p>
+</li>
+<li>
+<p>保存如下代码：</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;actionlib/client/simple_action_client.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"learning_test3/DoDishesAction.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> actionlib::SimpleActionClient&lt;learning_test3::DoDishesAction&gt; Client;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当action完成后会调用该回调函数一次</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">doneCb</span><span class="params">(<span class="keyword">const</span> actionlib::SimpleClientGoalState&amp; state,</span></span></span><br><span class="line"><span class="function"><span class="params">        <span class="keyword">const</span> learning_test3::DoDishesResultConstPtr&amp; result)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ROS_INFO(<span class="string">"Yay! The dishes are now clean"</span>);</span><br><span class="line">    ros::shutdown();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当action激活后会调用该回调函数一次</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">activeCb</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ROS_INFO(<span class="string">"Goal just went active"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 收到feedback后调用该回调函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">feedbackCb</span><span class="params">(<span class="keyword">const</span> learning_test3::DoDishesFeedbackConstPtr&amp; feedback)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ROS_INFO(<span class="string">" percent_complete : %f "</span>, feedback-&gt;percent_complete);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ros::init(argc, argv, <span class="string">"do_dishes_client"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 定义一个客户端</span></span><br><span class="line">    <span class="function">Client <span class="title">client</span><span class="params">(<span class="string">"do_dishes"</span>, <span class="literal">true</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 等待服务器端</span></span><br><span class="line">    ROS_INFO(<span class="string">"Waiting for action server to start."</span>);</span><br><span class="line">    client.waitForServer();</span><br><span class="line">    ROS_INFO(<span class="string">"Action server started, sending goal."</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建一个action的goal</span></span><br><span class="line">    learning_test3::DoDishesGoal goal;</span><br><span class="line">    goal.dishwasher_id = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 发送action的goal给服务器端，并且设置回调函数</span></span><br><span class="line">    client.sendGoal(goal,  &amp;doneCb, &amp;activeCb, &amp;feedbackCb);</span><br><span class="line"></span><br><span class="line">    ros::spin();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="35-再配置"><a class="markdownIt-Anchor" href="#35-再配置"></a> 3.5、再配置</h2>
+<ol>
+<li>找到刚才的工作空间：<code>cd ~/catkin_ws/src/learning_test3/</code></li>
+<li>编辑 <code>CMakeLists.txt</code> 文件：<code>gedit CMakeLists.txt</code></li>
+<li>保存如下代码：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">add_executable(DoDishes_client src/DoDishes_client.cpp)</span><br><span class="line">target_link_libraries(DoDishes_client $&#123;catkin_LIBRARIES&#125;)</span><br><span class="line">add_dependencies(DoDishes_client $&#123;$&#123;PROJECT_NAME&#125;_EXPORTED_TARGETS&#125;)</span><br><span class="line"></span><br><span class="line">add_executable(DoDishes_server src/DoDishes_server.cpp)</span><br><span class="line">target_link_libraries(DoDishes_server $&#123;catkin_LIBRARIES&#125;)</span><br><span class="line">add_dependencies(DoDishes_server $&#123;$&#123;PROJECT_NAME&#125;_EXPORTED_TARGETS&#125;)</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>返回主目录：<code>cd ~/catkin_ws/</code></li>
+<li>编译一下：<code>catkin_make</code></li>
+</ol>
+<h2 id="36-运行"><a class="markdownIt-Anchor" href="#36-运行"></a> 3.6、运行</h2>
+<ol>
+<li>新建终端，启动 ros：<code>roscore</code></li>
+<li>新建终端，启动 server：<code>rosrun learning_test3 DoDishes_client</code></li>
+<li>新建终端，启动 client：<code>rosrun learning_test1 DoDishes_server</code></li>
+<li>即可看到效果（洗盘子进度）</li>
+</ol>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://zhangxiaocn.github.io/2019/12/02/ros-%C2%96%C2%96communication/" title="初级 ROS 通信编程流程" target="_blank" rel="external">https://zhangxiaocn.github.io/2019/12/02/ros-%C2%96%C2%96communication/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/zhangxiaocn" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/zhangxiaocn" target="_blank"><span class="text-dark">ZhangXiao</span><small class="ml-1x">清风湿润，茶烟轻扬。</small></a></h3>
+        <div>一个爱折腾的大学生，折腾电脑，折腾手机，折腾各种数码设备。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/12/02/ros-tf/" title="TF 坐标变换（跟踪小海龟例程）"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/12/02/ros-turtle/" title="ROS Melodic 小海龟操控实例"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/zhangxiaocn" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

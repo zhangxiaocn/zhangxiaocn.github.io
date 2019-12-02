@@ -17,15 +17,19 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>归档: 2019/10 | ZhangXiao&#39;s Blog</title>
-  <meta property="og:type" content="website">
-<meta property="og:title" content="ZhangXiao&#39;s Blog">
-<meta property="og:url" content="https:&#x2F;&#x2F;zhangxiaocn.github.io&#x2F;archives&#x2F;2019&#x2F;10&#x2F;index.html">
+  <title>ROS Melodic 小海龟操控实例 | ZhangXiao&#39;s Blog</title>
+  <meta name="description" content="执行新的命令操作时，均需要启动一个新的终端然后输入命令  基础操作：  启动 ROS Master：roscore 启动小海龟仿真器：rosrun turtlesim turtlesim_node 启动小海龟键盘控制节点：rosrun turtlesim turtle_teleop_key 此时按键盘上的方向键即可操控小海龟运行  其他操作：  新生一只小海龟：rosservice call &#x2F;">
+<meta name="keywords" content="ROS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ROS Melodic 小海龟操控实例">
+<meta property="og:url" content="https:&#x2F;&#x2F;zhangxiaocn.github.io&#x2F;2019&#x2F;12&#x2F;02&#x2F;ros-turtle&#x2F;index.html">
 <meta property="og:site_name" content="ZhangXiao&#39;s Blog">
+<meta property="og:description" content="执行新的命令操作时，均需要启动一个新的终端然后输入命令  基础操作：  启动 ROS Master：roscore 启动小海龟仿真器：rosrun turtlesim turtlesim_node 启动小海龟键盘控制节点：rosrun turtlesim turtle_teleop_key 此时按键盘上的方向键即可操控小海龟运行  其他操作：  新生一只小海龟：rosservice call &#x2F;">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-12-02T12:22:10.444Z">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://zhangxiaocn.github.io/archives/2019/10/index.html">
+  <link rel="canonical" href="https://zhangxiaocn.github.io/2019/12/02/ros-turtle/index.html">
   
     <link rel="alternate" href="/atom.xml" title="ZhangXiao&#39;s Blog" type="application/atom+xml">
   
@@ -322,139 +326,235 @@
 
   
   
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      
+    </nav>
+  </div>
+</aside>
+
 <main class="main" role="main">
-  	<article class="content article article-archives article-type-list" itemscope="">
-	    <header class="article-header">
-	      <h1 itemprop="title">归档: 2019/10</h1>
-	      <p class="text-muted">共 10 篇文章</p>
-	    </header>
-	    <div class="article-body">
-	      
+  <div class="content">
+  <article id="post-ros-turtle" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
   
+    <h1 class="article-title" itemprop="name">
+      ROS Melodic 小海龟操控实例
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/12/02/ros-turtle/" class="article-date">
+	  <time datetime="2019-12-02T12:20:10.000Z" itemprop="datePublished">2019-12-02</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/ROS/" rel="tag">ROS</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/12/02/ros-turtle/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 281(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <blockquote>
+<p>执行新的命令操作时，均需要启动一个新的终端然后输入命令</p>
+</blockquote>
+<p><strong>基础操作：</strong></p>
+<ol>
+<li>启动 ROS Master：<code>roscore</code></li>
+<li>启动小海龟仿真器：<code>rosrun turtlesim turtlesim_node</code></li>
+<li>启动小海龟键盘控制节点：<code>rosrun turtlesim turtle_teleop_key</code></li>
+<li>此时按键盘上的方向键即可操控小海龟运行</li>
+</ol>
+<p><strong>其他操作：</strong></p>
+<ol>
+<li>新生一只小海龟：<code>rosservice call /spawn &quot;x:5.0 y:5.0 theta:0.0 name:'turtle2'&quot;</code></li>
+<li>按指定命令控制小海龟：<code>rostopic pub / turtle/cmd_vel geometry_msgs/Twist ...</code>
+<ol>
+<li>代码中的省略号里面包括了坐标及角度等信息，自行修改即可</li>
+<li>以一定的频率控制（1s 10次）：<code>rostopic pub -r 10 / turtle/cmd_vel geometry_msgs/Twist ...</code></li>
+<li>控制另外一只小海龟：<code>ostopic pub -r 10 / turtle2/cmd_vel geometry_msgs/Twist ...</code></li>
+</ol>
+</li>
+</ol>
+<p><strong>一只小海龟追赶另外一只小海龟实例：</strong></p>
+<ol>
+<li>安装小海龟坐标变换功能包：<code>sudo apt install ros-melodic-turtle-tf</code></li>
+<li>运行功能包：<code>roslaunch turtle_tf turtle_tf_demo.launch</code></li>
+<li>启动小海龟键盘控制节点：<code>rosrun turtlesim turtle_teleop_key</code></li>
+<li>此时按键盘上的方向键即可操控第一只小海龟运行，第二只小海龟会自动跟踪第一只小海龟</li>
+</ol>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://zhangxiaocn.github.io/2019/12/02/ros-turtle/" title="ROS Melodic 小海龟操控实例" target="_blank" rel="external">https://zhangxiaocn.github.io/2019/12/02/ros-turtle/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/zhangxiaocn" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/zhangxiaocn" target="_blank"><span class="text-dark">ZhangXiao</span><small class="ml-1x">清风湿润，茶烟轻扬。</small></a></h3>
+        <div>一个爱折腾的大学生，折腾电脑，折腾手机，折腾各种数码设备。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
   
     
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
     
-      
-      
-      <section class="panel panel-default b-no">
-        <div class="panel-heading" role="tab">
-          <h3 class="panel-title">
-            <a data-toggle="collapse" href="#collapse2019" aria-expanded="true">
-              <i class="icon icon-calendar-plus text-active"></i><i class="icon icon-calendar-minus text"></i>
-              2019
-            </a>
-            <!-- <a href="/archives/2019" class="archive-year">2019</a> -->
-          </h3>
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/12/02/ros-%C2%96%C2%96communication/" title="初级 ROS 通信编程流程"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/11/22/ubuntu-beautify/" title="Ubuntu18.04LTS 美化（仿Mac）"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div id="collapse2019" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading2019">
-        <div class="panel-body">
-          <div class="collection">
-    
-    
-<a href="/2019/10/30/study-note-pid/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2019-10-30T12:21:32.000Z" itemprop="datePublished">2019-10-30</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> PID 基础公式及程序
-</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 
-  
-    
-    
-    
-<a href="/2019/10/30/k60-time-interrupt/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2019-10-30T12:16:02.000Z" itemprop="datePublished">2019-10-30</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> K60 定时器中断的使用
-</a>
 
-
-  
-    
-    
-    
-<a href="/2019/10/29/openmv-study-note-1/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2019-10-29T13:46:29.000Z" itemprop="datePublished">2019-10-29</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> OpenMV 扫描 QR 码 + 串口通信
-</a>
-
-
-  
-    
-    
-    
-<a href="/2019/10/29/k60-motor-control/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2019-10-29T13:41:02.000Z" itemprop="datePublished">2019-10-29</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> 简述 K60 直流电机闭环控制
-</a>
-
-
-  
-    
-    
-    
-<a href="/2019/10/29/iar-setting/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2019-10-29T13:35:35.000Z" itemprop="datePublished">2019-10-29</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> IAR 软件自用技巧
-</a>
-
-
-  
-    
-    
-    
-<a href="/2019/10/29/continue-blog/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2019-10-29T13:23:54.000Z" itemprop="datePublished">2019-10-29</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> 换电脑后快速恢复 hexo 博客
-</a>
-
-
-  
-    
-    
-    
-<a href="/2019/10/29/hexo-theme-next/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2019-10-29T13:05:08.000Z" itemprop="datePublished">2019-10-29</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> Hexo NexT 主题的启用及设置
-</a>
-
-
-  
-    
-    
-    
-<a href="/2019/10/27/my-c-memory/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2019-10-27T13:23:55.000Z" itemprop="datePublished">2019-10-27</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> 我初学 C 的代码保留
-</a>
-
-
-  
-    
-    
-    
-<a href="/2019/10/25/hexo-theme-yilia/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2019-10-25T13:57:17.000Z" itemprop="datePublished">2019-10-25</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> Hexo yilia 主题的启用及设置
-</a>
-
-
-  
-    
-    
-    
-<a href="/2019/10/25/create-blog/" class="collection-item" target="_blank" itemprop="url">
-  <time datetime="2019-10-25T11:54:41.000Z" itemprop="datePublished">2019-10-25</time>
-  <span>&nbsp;&nbsp;&nbsp;</span> Hexo+Github 创建个人博客
-</a>
-
-
-  
-  
-    </div></div></div></section>
-  
-
-	    </div>
-  	</article>
-  	 	
 </main>
 
   <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
@@ -503,6 +603,39 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
 
 
 
