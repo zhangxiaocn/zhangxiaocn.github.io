@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://zhangxiaocn.github.io/2019/10/29/continue-blog/</loc>
+    
+    <lastmod>2019-12-20T12:50:54.411Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://zhangxiaocn.github.io/2019/12/02/ros-tf/</loc>
     
     <lastmod>2019-12-02T12:29:40.031Z</lastmod>
@@ -82,13 +89,6 @@
     <loc>https://zhangxiaocn.github.io/about/index.html</loc>
     
     <lastmod>2019-10-29T13:40:03.234Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zhangxiaocn.github.io/2019/10/29/continue-blog/</loc>
-    
-    <lastmod>2019-10-29T13:32:03.700Z</lastmod>
     
   </url>
   

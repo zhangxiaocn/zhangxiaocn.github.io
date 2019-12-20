@@ -18,15 +18,15 @@
   
   
   <title>换电脑后快速恢复 hexo 博客 | ZhangXiao&#39;s Blog</title>
-  <meta name="description" content="前言 使用 Github + hexo 搭建一个个人博客是需要花不少时间的，搭建好后如果有一天电脑突然坏了，或者重装了系统，那么我们怎么使用 hexo 再发布文章到个人博客呢？其实方法还是有的！  操作方法  安装软件  安装 Git 客户端 安装 node JS：建议下载 LTS 长期支持版   在 github 官网添加新电脑的密钥 在本地创建 SSH Keys： 1ssh-keygen -">
+  <meta name="description" content="前言 使用 Github + hexo 搭建一个个人博客是需要花不少时间的，搭建好后如果有一天电脑突然坏了，或者重装了系统，那么我们怎么使用 hexo 再发布文章到个人博客呢？其实方法还是有的！  操作方法  安装软件  安装 Git 客户端 安装 node JS：建议下载 LTS 长期支持版   在 github 官网添加新电脑的密钥 首先输入（yourname 和 youremail 改为你">
 <meta name="keywords" content="Blog,Hexo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="换电脑后快速恢复 hexo 博客">
 <meta property="og:url" content="https:&#x2F;&#x2F;zhangxiaocn.github.io&#x2F;2019&#x2F;10&#x2F;29&#x2F;continue-blog&#x2F;index.html">
 <meta property="og:site_name" content="ZhangXiao&#39;s Blog">
-<meta property="og:description" content="前言 使用 Github + hexo 搭建一个个人博客是需要花不少时间的，搭建好后如果有一天电脑突然坏了，或者重装了系统，那么我们怎么使用 hexo 再发布文章到个人博客呢？其实方法还是有的！  操作方法  安装软件  安装 Git 客户端 安装 node JS：建议下载 LTS 长期支持版   在 github 官网添加新电脑的密钥 在本地创建 SSH Keys： 1ssh-keygen -">
+<meta property="og:description" content="前言 使用 Github + hexo 搭建一个个人博客是需要花不少时间的，搭建好后如果有一天电脑突然坏了，或者重装了系统，那么我们怎么使用 hexo 再发布文章到个人博客呢？其实方法还是有的！  操作方法  安装软件  安装 Git 客户端 安装 node JS：建议下载 LTS 长期支持版   在 github 官网添加新电脑的密钥 首先输入（yourname 和 youremail 改为你">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-29T13:32:03.700Z">
+<meta property="og:updated_time" content="2019-12-20T12:50:54.411Z">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
   <link rel="canonical" href="https://zhangxiaocn.github.io/2019/10/29/continue-blog/index.html">
@@ -381,10 +381,10 @@
         <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/10/29/continue-blog/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 475(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 517(字)</span>
 	
 	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 2(分)</span>
 	
 
       </div>
@@ -400,6 +400,8 @@
 <li><a href="https://nodejs.org/en/" target="_blank" rel="noopener">安装 node JS</a>：建议下载 LTS 长期支持版</li>
 </ul>
 <h2 id="在-github-官网添加新电脑的密钥"><a class="markdownIt-Anchor" href="#在-github-官网添加新电脑的密钥"></a> 在 github 官网添加新电脑的密钥</h2>
+<p>首先输入（yourname 和 youremail 改为你的名字和邮箱）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;yourname&quot;</span><br><span class="line">git config --global user.email &quot;youremail&quot;</span><br></pre></td></tr></table></figure>
 <p>在本地创建 SSH Keys：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;@邮箱&quot;</span><br></pre></td></tr></table></figure>
 <p>一路回车。</p>
@@ -410,7 +412,7 @@
 <p>若弹出 <code>Are you sure you want to continue connecting (yes/no)?</code> 时输入 <code>yes</code> 确认。</p>
 <p>接着出现 <code>Hi xxx! You've successfully authenticated, but GitHub does not provide shell access.</code> 则操作成功。</p>
 <h2 id="复制源文件到新电脑"><a class="markdownIt-Anchor" href="#复制源文件到新电脑"></a> 复制源文件到新电脑</h2>
-<p>将你原来电脑上个人博客目录下必要文件拷到你的新电脑上（比如 <code>E:/Blog</code> 目录下），注意无需拷全部，只拷如下几个目录：</p>
+<p>将你原来电脑上个人博客目录下必要文件拷到你的新电脑上（比如 <code>E:/Blog</code> 目录下），注意无需拷全部，只拷如下几个目录（当然你要拷全部也可以）：</p>
 <ul>
 <li>_config.yml</li>
 <li>package.json</li>
