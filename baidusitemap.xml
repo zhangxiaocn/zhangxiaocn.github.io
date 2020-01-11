@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://zhangxiaocn.github.io/2019/11/22/ubuntu-beautify/</loc>
+    <lastmod>2020-01-09</lastmod>
+  </url>  <url>
+    <loc>https://zhangxiaocn.github.io/2019/11/22/win10-ubuntu/</loc>
+    <lastmod>2020-01-09</lastmod>
+  </url>  <url>
     <loc>https://zhangxiaocn.github.io/2019/10/29/openmv-study-note-1/</loc>
     <lastmod>2020-01-08</lastmod>
   </url>  <url>
@@ -22,9 +28,6 @@
     <loc>https://zhangxiaocn.github.io/2019/10/29/iar-setting/</loc>
     <lastmod>2020-01-08</lastmod>
   </url>  <url>
-    <loc>https://zhangxiaocn.github.io/2019/11/22/ubuntu-beautify/</loc>
-    <lastmod>2020-01-08</lastmod>
-  </url>  <url>
     <loc>https://zhangxiaocn.github.io/2019/10/30/study-note-pid/</loc>
     <lastmod>2020-01-08</lastmod>
   </url>  <url>
@@ -36,9 +39,6 @@
   </url>  <url>
     <loc>https://zhangxiaocn.github.io/2019/12/02/ros-turtle/</loc>
     <lastmod>2019-12-02</lastmod>
-  </url>  <url>
-    <loc>https://zhangxiaocn.github.io/2019/11/22/win10-ubuntu/</loc>
-    <lastmod>2019-11-22</lastmod>
   </url>  <url>
     <loc>https://zhangxiaocn.github.io/2019/10/30/k60-time-interrupt/</loc>
     <lastmod>2019-10-30</lastmod>

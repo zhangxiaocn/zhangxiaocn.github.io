@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://zhangxiaocn.github.io/2019/11/22/ubuntu-beautify/</loc>
+    
+    <lastmod>2020-01-09T12:47:22.272Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://zhangxiaocn.github.io/2019/11/22/win10-ubuntu/</loc>
+    
+    <lastmod>2020-01-09T12:38:50.590Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://zhangxiaocn.github.io/about/index.html</loc>
     
     <lastmod>2020-01-09T04:06:02.357Z</lastmod>
@@ -58,13 +72,6 @@
   </url>
   
   <url>
-    <loc>https://zhangxiaocn.github.io/2019/11/22/ubuntu-beautify/</loc>
-    
-    <lastmod>2020-01-08T14:33:35.361Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://zhangxiaocn.github.io/2019/10/30/study-note-pid/</loc>
     
     <lastmod>2020-01-08T14:24:43.831Z</lastmod>
@@ -110,13 +117,6 @@
     <loc>https://zhangxiaocn.github.io/2019/12/02/ros-turtle/</loc>
     
     <lastmod>2019-12-02T12:22:10.444Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://zhangxiaocn.github.io/2019/11/22/win10-ubuntu/</loc>
-    
-    <lastmod>2019-11-22T11:18:41.957Z</lastmod>
     
   </url>
   
