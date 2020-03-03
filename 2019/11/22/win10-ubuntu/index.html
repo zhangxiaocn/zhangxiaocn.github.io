@@ -59,7 +59,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.4k字</span>
+            <span class="post-count">1.3k字</span>
         </span>
     </span>
 
@@ -104,7 +104,7 @@
 <h3 id="12-前期磁盘准备"><a class="markdownIt-Anchor" href="#12-前期磁盘准备"></a> 1.2、前期磁盘准备</h3>
 <ol>
 <li>在 Win10 中，鼠标右键选择 <code>计算机</code> --&gt; <code>管理</code> --&gt; <code>磁盘管理</code></li>
-<li>选择你需要安装 Ubuntu 的磁盘，右键选择 <code>压缩卷</code>，压缩一个你需要的空间大小（建议至少 60G，不要分配盘符）</li>
+<li>选择你需要安装 Ubuntu 的磁盘，右键选择 <code>压缩卷</code>，压缩一个你需要的空间大小（如何你是想当成主力使用的话，建议至少 80G，不要分配盘符）</li>
 <li>打开 <code>系统设置</code>  --&gt; <code>系统</code> --&gt; <code>电源和睡眠</code> --&gt; <code>其他电源设置</code> --&gt; <code>选择电源按钮的功能</code> --&gt; <code>更改当前不可用的设置</code> --&gt; <code>关闭启用快速启动的选项</code>（如果上述步骤没找到，可以百度搜索 Win10 关闭快速启动方法）</li>
 </ol>
 <h3 id="13-前期-bios-准备"><a class="markdownIt-Anchor" href="#13-前期-bios-准备"></a> 1.3、前期 BIOS 准备</h3>
@@ -123,56 +123,47 @@
 </ol>
 <h3 id="15-安装类型配置"><a class="markdownIt-Anchor" href="#15-安装类型配置"></a> 1.5、安装类型配置</h3>
 <ol>
-<li>点击你分配的磁盘，选择加号，进行如下配置：
+<li>
+<p>点击你分配的磁盘，选择加号，进行如下配置：</p>
 <ol>
-<li>SWAP 交换空间（虚拟内存）
+<li>/boot
 <ol>
-<li>大小：与电脑内存一致</li>
-<li>新分区的类型：主分区</li>
-<li>新分区的位置：空间起始位置</li>
-<li>用于：交换空间</li>
-</ol>
-</li>
-<li>EFI 系统分区（系统引导文件位置）
-<ol>
-<li>大小：建议最少 256MB</li>
+<li>大小：300M</li>
 <li>新分区的类型：逻辑分区</li>
 <li>新分区的位置：空间起始位置</li>
-<li>用于：EFI 系统分区</li>
+<li>用于：EXT4 日志文件系统</li>
+<li>挂载点：/boot</li>
 </ol>
 </li>
-<li>/home（个人文件夹）
+<li>/
 <ol>
-<li>大小：建议最少 8G，存放个人文件的地方</li>
+<li>大小：建议 50G 左右即可</li>
+<li>新分区的类型：主分区</li>
+<li>新分区的位置：空间起始位置</li>
+<li>用于：EXT4 日志文件系统</li>
+<li>挂载点：/</li>
+</ol>
+</li>
+<li>/home（这个主要是个人文件夹）
+<ol>
+<li>大小：剩下的都给它，如果你之前压缩了80G空间的话，现在应该还剩29G左右，都分配给它就行了。这个是存放个人文件的地方</li>
 <li>新分区的类型：逻辑分区</li>
 <li>新分区的位置：空间起始位置</li>
 <li>用于：EXT4 日志文件系统</li>
 <li>挂载点：/home</li>
 </ol>
 </li>
-<li>/（其他目录）
-<ol>
-<li>大小：建议 8G 左右即可</li>
-<li>新分区的类型：逻辑分区</li>
-<li>新分区的位置：空间起始位置</li>
-<li>用于：EXT4 日志文件系统</li>
-<li>挂载点：/</li>
 </ol>
 </li>
-<li>/usr（软件安装位置）
-<ol>
-<li>大小：安装软件的位置，尽量给大一点，将剩下的所有空间都给它就好</li>
-<li>新分区的类型：逻辑分区</li>
-<li>新分区的位置：空间起始位置</li>
-<li>用于：EXT4 日志文件系统</li>
-<li>挂载点：/usr</li>
-</ol>
+<li>
+<p>找到你刚才新建的类型为 /boot 的设备，在 <code>安装启动引导器的设备</code> 选项中，选中它</p>
 </li>
-</ol>
+<li>
+<p>点击 <code>现在安装</code> ，点击 <code>继续</code></p>
 </li>
-<li>找到你刚才新建的类型为 efi 的设备，在 <code>安装启动引导器的设备</code> 选项中，选中它</li>
-<li>点击 <code>现在安装</code> ，点击 <code>继续</code></li>
-<li>后面的步骤完全自定义即可，没有什么坑了</li>
+<li>
+<p>后面的步骤完全自定义即可，没有什么坑了</p>
+</li>
 </ol>
 <h2 id="2-配置及相关问题解决方案"><a class="markdownIt-Anchor" href="#2-配置及相关问题解决方案"></a> 2、配置及相关问题解决方案</h2>
 <h3 id="21-安装搜狗输入法及相关问题"><a class="markdownIt-Anchor" href="#21-安装搜狗输入法及相关问题"></a> 2.1、安装搜狗输入法及相关问题</h3>
@@ -273,7 +264,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zhangxiaocn.github.io/2019/11/22/win10-ubuntu/" data-id="ck67lor8t002gqkua4fli769v"
+      <a data-url="https://zhangxiaocn.github.io/2019/11/22/win10-ubuntu/" data-id="ck7b86z44001tdouag4qndmx0"
         class="article-share-link">分享</a>
         
       
